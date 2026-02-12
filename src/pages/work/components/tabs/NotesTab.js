@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FiSave, FiTrash2, FiPlus } from 'react-icons/fi';
 import api from '../../../../config/api';
-import { useAuth } from '../../../../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import ConfirmModal from '../../../../components/ConfirmModal';
 
 const NotesTab = ({ projectId, teamId, type = 'project' }) => {
-  const { user } = useAuth();
   const [notes, setNotes] = useState([]);
   const [activeNote, setActiveNote] = useState(null);
   const [noteContent, setNoteContent] = useState('');
@@ -14,11 +12,7 @@ const NotesTab = ({ projectId, teamId, type = 'project' }) => {
   const [loading, setLoading] = useState(true);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, noteId: null });
 
-  useEffect(() => {
-    fetchNotes();
-  }, [projectId, teamId]);
-
-  const fetchNotes = async () => {
+  const fetchNotes = useCallback(async () => {
     try {
       const params = {};
       if (projectId) params.projectId = projectId;
@@ -32,7 +26,11 @@ const NotesTab = ({ projectId, teamId, type = 'project' }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [projectId, teamId]);
+
+  useEffect(() => {
+    fetchNotes();
+  }, [fetchNotes]);
 
   const handleCreateNote = () => {
     setActiveNote(null);

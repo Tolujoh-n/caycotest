@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FiPlus, FiX, FiMail, FiPhone } from 'react-icons/fi';
 import api from '../../../../config/api';
 import { useAuth } from '../../../../context/AuthContext';
@@ -12,14 +12,7 @@ const MembersTab = ({ teamId }) => {
   const [loading, setLoading] = useState(true);
   const canManage = hasPermission('work.manage');
 
-  useEffect(() => {
-    if (teamId) {
-      fetchTeam();
-      fetchAvailableUsers();
-    }
-  }, [teamId]);
-
-  const fetchTeam = async () => {
+  const fetchTeam = useCallback(async () => {
     try {
       const response = await api.get(`/teams/${teamId}`);
       setTeam(response.data.data);
@@ -28,16 +21,23 @@ const MembersTab = ({ teamId }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [teamId]);
 
-  const fetchAvailableUsers = async () => {
+  const fetchAvailableUsers = useCallback(async () => {
     try {
       const response = await api.get('/users');
       setAvailableUsers(response.data.data || []);
     } catch (error) {
       console.error('Failed to fetch users');
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (teamId) {
+      fetchTeam();
+      fetchAvailableUsers();
+    }
+  }, [teamId, fetchTeam, fetchAvailableUsers]);
 
   const handleAddMember = async (userId) => {
     try {

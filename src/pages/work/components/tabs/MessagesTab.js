@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { FiSend, FiPaperclip, FiAtSign, FiDownload, FiImage, FiFile, FiX } from 'react-icons/fi';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { FiSend, FiPaperclip, FiDownload, FiFile, FiX } from 'react-icons/fi';
 import api from '../../../../config/api';
 import { useAuth } from '../../../../context/AuthContext';
 import { toast } from 'react-hot-toast';
@@ -16,21 +16,7 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    fetchMessages();
-    const interval = setInterval(fetchMessages, 5000); // Poll every 5 seconds
-    return () => clearInterval(interval);
-  }, [projectId, teamId]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback(async () => {
     try {
       const params = {};
       if (projectId) params.projectId = projectId;
@@ -62,6 +48,20 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
     } finally {
       setLoading(false);
     }
+  }, [projectId, teamId]);
+
+  useEffect(() => {
+    fetchMessages();
+    const interval = setInterval(fetchMessages, 5000); // Poll every 5 seconds
+    return () => clearInterval(interval);
+  }, [fetchMessages]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleFileSelect = (e) => {
