@@ -18,7 +18,7 @@ import ConfirmModal from '../../../../components/ConfirmModal';
 const columnHelper = createColumnHelper();
 
 const ListTab = ({ projectId, teamId, type = 'project' }) => {
-  const { user, hasPermission } = useAuth();
+  const { hasPermission } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTask, setSelectedTask] = useState(null);
