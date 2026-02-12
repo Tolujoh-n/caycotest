@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FiUpload, FiDownload, FiTrash2, FiFile, FiImage, FiFileText, FiX } from 'react-icons/fi';
 import api from '../../../../config/api';
 import { useAuth } from '../../../../context/AuthContext';
@@ -16,11 +16,7 @@ const FilesTab = ({ projectId, teamId, type = 'project' }) => {
   const itemsPerPage = 12;
   const canManage = hasPermission('work.manage');
 
-  useEffect(() => {
-    fetchFiles();
-  }, [projectId, teamId]);
-
-  const fetchFiles = async () => {
+  const fetchFiles = useCallback(async () => {
     try {
       const params = {};
       if (projectId) params.projectId = projectId;
@@ -33,7 +29,11 @@ const FilesTab = ({ projectId, teamId, type = 'project' }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [projectId, teamId]);
+
+  useEffect(() => {
+    fetchFiles();
+  }, [fetchFiles]);
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];

@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FiSearch, FiFileText, FiBook, FiTag } from 'react-icons/fi';
 import api from '../../../../config/api';
-import { toast } from 'react-hot-toast';
 
 const KnowledgeTab = ({ teamId }) => {
   const [knowledge, setKnowledge] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchKnowledge();
-  }, [teamId]);
-
-  const fetchKnowledge = async () => {
+  const fetchKnowledge = useCallback(async () => {
     try {
       // For now, we'll use messages and files as knowledge base
       // Later we can create a dedicated Knowledge model
@@ -48,7 +43,11 @@ const KnowledgeTab = ({ teamId }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [teamId]);
+
+  useEffect(() => {
+    fetchKnowledge();
+  }, [fetchKnowledge]);
 
   const filteredKnowledge = knowledge.filter(item =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

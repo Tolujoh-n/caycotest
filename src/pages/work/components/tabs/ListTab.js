@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { FiChevronRight, FiPlus, FiMoreVertical, FiEdit2, FiTrash2, FiX, FiChevronLeft } from 'react-icons/fi';
 import {
   useReactTable,
@@ -35,13 +35,8 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
     dueDate: ''
   });
   const canManage = hasPermission('work.manage');
-  const isAdmin = user?.role === 'Company Owner' || user?.role === 'Operations Manager';
 
-  useEffect(() => {
-    fetchTasks();
-  }, [projectId, teamId]);
-
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     try {
       const params = {};
       if (projectId) params.projectId = projectId;
@@ -62,7 +57,11 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [projectId, teamId]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   const handleTaskClick = (task) => {
     setSelectedTask(task);
@@ -148,24 +147,26 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
     }
   };
 
-  const handleSelectAll = (checked) => {
+  const handleSelectAll = useCallback((checked) => {
     if (checked) {
       setSelectedRows(new Set(tasks.map(t => t._id)));
     } else {
       setSelectedRows(new Set());
     }
-  };
+  }, [tasks]);
 
-  const handleSelectRow = (taskId, checked) => {
-    const newSelected = new Set(selectedRows);
-    if (checked) {
-      newSelected.add(taskId);
-    } else {
-      newSelected.delete(taskId);
-    }
-    setSelectedRows(newSelected);
-    setShowBulkActions(newSelected.size > 0);
-  };
+  const handleSelectRow = useCallback((taskId, checked) => {
+    setSelectedRows(prev => {
+      const newSelected = new Set(prev);
+      if (checked) {
+        newSelected.add(taskId);
+      } else {
+        newSelected.delete(taskId);
+      }
+      setShowBulkActions(newSelected.size > 0);
+      return newSelected;
+    });
+  }, []);
 
   useEffect(() => {
     setShowBulkActions(selectedRows.size > 0);
@@ -363,7 +364,7 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
         ),
       }),
     ],
-    [canManage, selectedRows]
+    [canManage, selectedRows, handleSelectAll, handleSelectRow, fetchTasks]
   );
 
   // Filter tasks based on global filter
