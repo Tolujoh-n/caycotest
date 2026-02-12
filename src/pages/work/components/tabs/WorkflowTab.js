@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { FiArrowRight, FiArrowLeft, FiCheck } from 'react-icons/fi';
+import React, { useState, useEffect, useCallback } from 'react';
+import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay, useDroppable } from '@dnd-kit/core';
-import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { SortableContext, useSortable, verticalListSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import api from '../../../../config/api';
 import { toast } from 'react-hot-toast';
@@ -125,11 +125,7 @@ const WorkflowTab = ({ projectId, teamId, type = 'project' }) => {
     })
   );
 
-  useEffect(() => {
-    fetchTasks();
-  }, [projectId, teamId]);
-
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     try {
       const params = {};
       if (projectId) params.projectId = projectId;
@@ -142,7 +138,11 @@ const WorkflowTab = ({ projectId, teamId, type = 'project' }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [projectId, teamId]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   const handleStatusChange = async (taskId, newStatus) => {
     try {

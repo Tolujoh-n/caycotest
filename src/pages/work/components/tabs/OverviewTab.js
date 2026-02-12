@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiEdit2, FiPlus, FiX, FiUser, FiFile, FiFlag, FiLink, FiTrash2, FiCheck, FiUpload, FiExternalLink, FiDownload } from 'react-icons/fi';
+import { FiEdit2, FiPlus, FiX, FiFile, FiFlag, FiLink, FiTrash2, FiCheck, FiUpload, FiExternalLink, FiDownload } from 'react-icons/fi';
 import api from '../../../../config/api';
 import { useAuth } from '../../../../context/AuthContext';
 import { toast } from 'react-hot-toast';
@@ -28,11 +28,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
   const itemsPerPage = 5;
   const canEdit = hasPermission('work.manage');
 
-  useEffect(() => {
-    fetchData();
-  }, [projectId, teamId]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       if (type === 'project' && projectId) {
         const res = await api.get(`/projects/${projectId}`);
@@ -78,7 +74,11 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [projectId, teamId, type]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleUpdateDescription = async () => {
     try {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FiClock, FiCheckCircle } from 'react-icons/fi';
 import api from '../../../../config/api';
 import { toast } from 'react-hot-toast';
@@ -7,11 +7,7 @@ const TimelineTab = ({ projectId, teamId, type = 'project' }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchTasks();
-  }, [projectId, teamId]);
-
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     try {
       const params = {};
       if (projectId) params.projectId = projectId;
@@ -31,7 +27,11 @@ const TimelineTab = ({ projectId, teamId, type = 'project' }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [projectId, teamId]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   const groupTasksByDate = () => {
     const grouped = {};
