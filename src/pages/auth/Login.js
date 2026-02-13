@@ -6,7 +6,7 @@ import loginImage from '../../assets/login-img.png';
 import caycoLogo from '../../assets/Cayco_logo.png';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ organizationId: '', email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const { login, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    const result = await login(formData.email, formData.password);
+    const result = await login(formData.organizationId, formData.email, formData.password);
     if (result.success) {
       navigate('/dashboard');
     }
@@ -94,6 +94,29 @@ const Login = () => {
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div>
+                <label htmlFor="organizationId" className="block text-sm font-medium text-gray-700 mb-1">
+                  Organization ID *
+                </label>
+                <input
+                  id="organizationId"
+                  name="organizationId"
+                  type="text"
+                  autoComplete="organization"
+                  required
+                  className="input"
+                  placeholder="Enter your organization ID"
+                  value={formData.organizationId}
+                  onChange={handleChange}
+                  style={{ textTransform: 'uppercase' }}
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  Forgot your Organization ID?{' '}
+                  <Link to="/forgot-organization-id" className="text-primary-600 hover:text-primary-500 font-medium">
+                    Click here
+                  </Link>
+                </p>
+              </div>
+              <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email address
                 </label>
@@ -124,6 +147,11 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                 />
+                <p className="mt-1 text-xs text-gray-500">
+                  <Link to="/forgot-password" className="text-primary-600 hover:text-primary-500 font-medium">
+                    Forgot password?
+                  </Link>
+                </p>
               </div>
             </div>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../config/api';
 import { toast } from 'react-hot-toast';
+import { FiCopy } from 'react-icons/fi';
 
 const CompanySettings = () => {
   const [formData, setFormData] = useState({
@@ -26,6 +27,7 @@ const CompanySettings = () => {
   const [saving, setSaving] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [logo, setLogo] = useState('');
+  const [organizationId, setOrganizationId] = useState('');
 
   useEffect(() => {
     fetchCompanyData();
@@ -37,6 +39,7 @@ const CompanySettings = () => {
       const response = await api.get('/companies/me');
       const company = response.data.data;
       setLogo(company.logo || '');
+      setOrganizationId(company.organizationId || '');
       setFormData({
         name: company.name || '',
         email: company.email || '',
@@ -60,6 +63,28 @@ const CompanySettings = () => {
       toast.error('Failed to load company data');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCopyOrganizationId = async () => {
+    try {
+      await navigator.clipboard.writeText(organizationId);
+      toast.success('Organization ID copied to clipboard!');
+    } catch (error) {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = organizationId;
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        toast.success('Organization ID copied to clipboard!');
+      } catch (err) {
+        toast.error('Failed to copy Organization ID');
+      }
+      document.body.removeChild(textArea);
     }
   };
 
@@ -136,6 +161,36 @@ const CompanySettings = () => {
           <p className="text-xs text-gray-500 mt-1">JPG, PNG or GIF. Max size 5MB.</p>
         </div>
       </div>
+
+      {/* Organization ID - Read Only (All Members) */}
+      {organizationId && (
+        <div className="p-4 bg-primary-50 border border-primary-200 rounded-lg">
+          <label className="block text-sm font-medium text-primary-900 mb-2">
+            Organization ID
+          </label>
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              readOnly
+              className="input bg-white font-mono text-primary-700 font-semibold cursor-default"
+              value={organizationId}
+              style={{ textTransform: 'uppercase' }}
+            />
+            <button
+              type="button"
+              onClick={handleCopyOrganizationId}
+              className="btn btn-sm btn-primary flex items-center gap-2 whitespace-nowrap"
+              title="Copy Organization ID"
+            >
+              <FiCopy className="h-4 w-4" />
+              Copy
+            </button>
+          </div>
+          <p className="text-xs text-primary-600 mt-2">
+            This is your organization's unique ID. Use this along with your email and password to log in.
+          </p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>

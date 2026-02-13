@@ -13,6 +13,9 @@ import Landing from './pages/Landing';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import InviteAccept from './pages/auth/InviteAccept';
+import ForgotOrganizationId from './pages/auth/ForgotOrganizationId';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import ResetPassword from './pages/auth/ResetPassword';
 
 // Main Pages
 import Dashboard from './pages/Dashboard';
@@ -46,6 +49,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/invite/:token" element={<InviteAccept />} />
+            <Route path="/forgot-organization-id" element={<ForgotOrganizationId />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
             
             <Route
               path="/dashboard"

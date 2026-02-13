@@ -11,6 +11,8 @@ const UserManagement = () => {
   const [loading, setLoading] = useState(true);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [inviteData, setInviteData] = useState({ email: '', role: 'Staff' });
+  const [sendingInvite, setSendingInvite] = useState(false);
+  const [deletingUserId, setDeletingUserId] = useState(null);
 
   useEffect(() => {
     // Only fetch data if user is Company Owner
@@ -44,6 +46,9 @@ const UserManagement = () => {
 
   const handleInvite = async (e) => {
     e.preventDefault();
+    if (sendingInvite) return; // Prevent double submission
+    
+    setSendingInvite(true);
     try {
       await api.post('/auth/invite', inviteData);
       toast.success('Invitation sent successfully!');
@@ -52,6 +57,25 @@ const UserManagement = () => {
       fetchUsers();
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to send invitation');
+    } finally {
+      setSendingInvite(false);
+    }
+  };
+
+  const handleDeleteUser = async (userId) => {
+    if (!window.confirm('Are you sure you want to remove this user from the organization? This action cannot be undone.')) {
+      return;
+    }
+
+    setDeletingUserId(userId);
+    try {
+      await api.delete(`/auth/user/${userId}`);
+      toast.success('User removed from organization successfully');
+      fetchUsers();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to delete user');
+    } finally {
+      setDeletingUserId(null);
     }
   };
 
@@ -125,12 +149,27 @@ const UserManagement = () => {
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <button
-                    onClick={() => handleToggleActive(user._id, user.isActive)}
-                    className="text-gray-600 hover:text-gray-900 mr-4"
-                  >
-                    {user.isActive ? <FiUserX className="h-5 w-5" /> : <FiUserCheck className="h-5 w-5" />}
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleToggleActive(user._id, user.isActive)}
+                      className="text-gray-600 hover:text-gray-900"
+                      title={user.isActive ? 'Deactivate' : 'Activate'}
+                    >
+                      {user.isActive ? <FiUserX className="h-5 w-5" /> : <FiUserCheck className="h-5 w-5" />}
+                    </button>
+                    <button
+                      onClick={() => handleDeleteUser(user._id)}
+                      disabled={deletingUserId === user._id}
+                      className="text-red-600 hover:text-red-900 disabled:opacity-50"
+                      title="Remove from organization"
+                    >
+                      {deletingUserId === user._id ? (
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-red-600"></div>
+                      ) : (
+                        <FiTrash2 className="h-5 w-5" />
+                      )}
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -192,8 +231,19 @@ const UserManagement = () => {
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn btn-primary">
-                  Send Invitation
+                <button 
+                  type="submit" 
+                  className="btn btn-primary"
+                  disabled={sendingInvite}
+                >
+                  {sendingInvite ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2 inline-block"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    'Send Invitation'
+                  )}
                 </button>
               </div>
             </form>
