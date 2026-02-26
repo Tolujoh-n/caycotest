@@ -176,7 +176,7 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
     { name: 'Gray', value: '#6B7280' }
   ];
 
-  if (loading) return <div className="text-center py-8">Loading calendar...</div>;
+  if (loading) return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading calendar...</div>;
 
   return (
     <div className="relative">
@@ -222,6 +222,91 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
         }
         .rbc-day-slot .rbc-time-slot {
           border-top: 1px solid #f3f4f6;
+        }
+        /* Dark mode: calendar grid and current day */
+        .dark .rbc-calendar {
+          background-color: #1f2937;
+          color: #e5e7eb;
+        }
+        .dark .rbc-today {
+          background-color: #1e3a5f !important;
+        }
+        .dark .rbc-header {
+          background-color: #374151 !important;
+          color: #f3f4f6;
+          border-color: #4b5563;
+        }
+        .dark .rbc-month-row,
+        .dark .rbc-day-bg {
+          background-color: #1f2937;
+        }
+        .dark .rbc-day-bg + .rbc-day-bg {
+          border-left: 1px solid #374151;
+        }
+        .dark .rbc-month-view {
+          border-color: #374151;
+        }
+        .dark .rbc-date-cell {
+          color: #e5e7eb;
+        }
+        .dark .rbc-date-cell.rbc-now {
+          color: #93c5fd;
+        }
+        .dark .rbc-off-range-bg {
+          background-color: #111827;
+        }
+        .dark .rbc-off-range .rbc-date-cell {
+          color: #6b7280;
+        }
+        .dark .rbc-toolbar button {
+          color: #e5e7eb;
+          border-color: #4b5563;
+          background-color: #374151;
+        }
+        .dark .rbc-toolbar button:hover {
+          background-color: #4b5563;
+          color: #f9fafb;
+        }
+        .dark .rbc-toolbar button.rbc-active {
+          background-color: #3b82f6;
+          color: white;
+          border-color: #3b82f6;
+        }
+        .dark .rbc-time-view {
+          border-color: #374151;
+        }
+        .dark .rbc-time-header-content {
+          border-left-color: #4b5563;
+        }
+        .dark .rbc-time-slot {
+          border-top-color: #374151;
+        }
+        .dark .rbc-day-slot .rbc-time-slot {
+          border-top-color: #374151;
+        }
+        .dark .rbc-timeslot-group {
+          border-color: #374151;
+        }
+        .dark .rbc-time-content {
+          border-top: 1px solid #374151;
+        }
+        .dark .rbc-allday-cell {
+          background-color: #374151;
+          border-color: #4b5563;
+        }
+        .dark .rbc-agenda-view {
+          background-color: #1f2937;
+          border-color: #374151;
+        }
+        .dark .rbc-agenda-view table.rbc-agenda-table {
+          border-color: #374151;
+        }
+        .dark .rbc-agenda-view .rbc-agenda-date-cell,
+        .dark .rbc-agenda-view .rbc-agenda-time-cell {
+          color: #9ca3af;
+        }
+        .dark .rbc-agenda-view .rbc-agenda-event-cell {
+          color: #e5e7eb;
         }
       `}</style>
       
@@ -269,28 +354,28 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
           </div>
           
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 bg-gray-50 rounded-lg p-1">
+            <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-700 rounded-lg p-1">
               <button
                 onClick={() => setView('month')}
-                className={`px-3 py-1 text-sm rounded ${view === 'month' ? 'bg-white shadow-sm text-primary-600' : 'text-gray-600'}`}
+                className={`px-3 py-1 text-sm rounded ${view === 'month' ? 'bg-white dark:bg-gray-600 shadow-sm text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600'}`}
               >
                 Month
               </button>
               <button
                 onClick={() => setView('week')}
-                className={`px-3 py-1 text-sm rounded ${view === 'week' ? 'bg-white shadow-sm text-primary-600' : 'text-gray-600'}`}
+                className={`px-3 py-1 text-sm rounded ${view === 'week' ? 'bg-white dark:bg-gray-600 shadow-sm text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600'}`}
               >
                 Week
               </button>
               <button
                 onClick={() => setView('day')}
-                className={`px-3 py-1 text-sm rounded ${view === 'day' ? 'bg-white shadow-sm text-primary-600' : 'text-gray-600'}`}
+                className={`px-3 py-1 text-sm rounded ${view === 'day' ? 'bg-white dark:bg-gray-600 shadow-sm text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600'}`}
               >
                 Day
               </button>
               <button
                 onClick={() => setView('agenda')}
-                className={`px-3 py-1 text-sm rounded ${view === 'agenda' ? 'bg-white shadow-sm text-primary-600' : 'text-gray-600'}`}
+                className={`px-3 py-1 text-sm rounded ${view === 'agenda' ? 'bg-white dark:bg-gray-600 shadow-sm text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600'}`}
               >
                 Agenda
               </button>
@@ -312,7 +397,7 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
           </div>
         </div>
 
-        <div className="mb-4 flex items-center gap-4 text-sm">
+        <div className="mb-4 flex items-center gap-4 text-sm text-gray-700 dark:text-gray-300">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded" style={{ backgroundColor: colorPrefs.task }} />
             <span>Tasks</span>
@@ -327,7 +412,7 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
           </div>
           <button
             onClick={() => setShowColorSettings(!showColorSettings)}
-            className="ml-auto flex items-center gap-1 text-primary-600 hover:text-primary-700"
+            className="ml-auto flex items-center gap-1 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
           >
             <FiEdit2 className="h-4 w-4" />
             <span>Customize Colors</span>
@@ -335,19 +420,19 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
         </div>
 
         {showColorSettings && (
-          <div className="mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-gray-700">Default Colors</h3>
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-200">Default Colors</h3>
               <button
                 onClick={() => setShowColorSettings(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
               >
                 <FiX className="h-4 w-4" />
               </button>
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-2">Tasks</label>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Tasks</label>
                 <div className="flex flex-wrap gap-2">
                   {colorOptions.map((color) => (
                     <button
@@ -355,7 +440,7 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
                       type="button"
                       onClick={() => setColorPrefs({ ...colorPrefs, task: color.value })}
                       className={`w-8 h-8 rounded-full border-2 ${
-                        colorPrefs.task === color.value ? 'border-gray-900' : 'border-gray-300'
+                        colorPrefs.task === color.value ? 'border-gray-900 dark:border-gray-100' : 'border-gray-300 dark:border-gray-500'
                       }`}
                       style={{ backgroundColor: color.value }}
                       title={color.name}
@@ -364,7 +449,7 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-2">Events</label>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Events</label>
                 <div className="flex flex-wrap gap-2">
                   {colorOptions.map((color) => (
                     <button
@@ -372,7 +457,7 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
                       type="button"
                       onClick={() => setColorPrefs({ ...colorPrefs, event: color.value })}
                       className={`w-8 h-8 rounded-full border-2 ${
-                        colorPrefs.event === color.value ? 'border-gray-900' : 'border-gray-300'
+                        colorPrefs.event === color.value ? 'border-gray-900 dark:border-gray-100' : 'border-gray-300 dark:border-gray-500'
                       }`}
                       style={{ backgroundColor: color.value }}
                       title={color.name}
@@ -381,7 +466,7 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-2">Appointments</label>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Appointments</label>
                 <div className="flex flex-wrap gap-2">
                   {colorOptions.map((color) => (
                     <button
@@ -389,7 +474,7 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
                       type="button"
                       onClick={() => setColorPrefs({ ...colorPrefs, appointment: color.value })}
                       className={`w-8 h-8 rounded-full border-2 ${
-                        colorPrefs.appointment === color.value ? 'border-gray-900' : 'border-gray-300'
+                        colorPrefs.appointment === color.value ? 'border-gray-900 dark:border-gray-100' : 'border-gray-300 dark:border-gray-500'
                       }`}
                       style={{ backgroundColor: color.value }}
                       title={color.name}

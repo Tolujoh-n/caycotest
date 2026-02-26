@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import {
   FiHome, FiUsers, FiBriefcase, FiFileText, FiCalendar,
   FiDollarSign, FiClipboard, FiBarChart2, FiSettings, FiBell,
-  FiMenu, FiX, FiLogOut, FiUser, FiMail, FiPackage, FiTool, FiInbox
+  FiMenu, FiX, FiLogOut, FiUser, FiMail, FiPackage, FiTool, FiInbox,
+  FiSun, FiMoon
 } from 'react-icons/fi';
 import NotificationBell from './NotificationBell';
 import ProfileDropdown from './ProfileDropdown';
@@ -16,6 +18,7 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout, hasPermission } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const menuItems = [
     { path: '/dashboard', icon: FiHome, label: 'Home', permission: 'jobs.view' },
@@ -36,21 +39,21 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Navbar */}
-      <nav className="bg-white border-b border-gray-200 fixed w-full top-0 z-40">
+      <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 fixed w-full top-0 z-40">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                className="lg:hidden p-2 rounded-md text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 {mobileMenuOpen ? <FiX className="h-6 w-6" /> : <FiMenu className="h-6 w-6" />}
               </button>
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="hidden lg:block p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 ml-2"
+                className="hidden lg:block p-2 rounded-md text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 ml-2"
               >
                 <FiMenu className="h-6 w-6" />
               </button>
@@ -63,6 +66,17 @@ const Layout = ({ children }) => {
               </Link>
             </div>
             <div className="flex items-center space-x-4">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-md text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+              >
+                {theme === 'light' ? (
+                  <FiMoon className="h-5 w-5" />
+                ) : (
+                  <FiSun className="h-5 w-5" />
+                )}
+              </button>
               <NotificationBell />
               <ProfileDropdown />
             </div>
@@ -75,7 +89,7 @@ const Layout = ({ children }) => {
         <aside
           className={`${
             sidebarOpen ? 'w-64' : 'w-16'
-          } hidden lg:block fixed h-[calc(100vh-4rem)] bg-white border-r border-gray-200 overflow-y-auto transition-all duration-300 pb-20`}
+          } hidden lg:block fixed h-[calc(100vh-4rem)] bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto transition-all duration-300 pb-20`}
         >
           <nav className="mt-5 px-2 space-y-1">
             {menuItems.map((item) => {
@@ -87,8 +101,8 @@ const Layout = ({ children }) => {
                   to={item.path}
                   className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-primary-50 text-primary-600'
-                      : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
                   <Icon className={`h-5 w-5 ${sidebarOpen ? 'mr-3' : 'mx-auto'}`} />
@@ -101,8 +115,8 @@ const Layout = ({ children }) => {
                 to="/settings"
                 className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                   location.pathname === '/settings'
-                    ? 'bg-primary-50 text-primary-600'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
                 <FiSettings className={`h-5 w-5 ${sidebarOpen ? 'mr-3' : 'mx-auto'}`} />
@@ -112,7 +126,7 @@ const Layout = ({ children }) => {
           </nav>
           
           {/* Sidebar Footer - User Info */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white">
+          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
             <div className={`flex items-center ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
               {sidebarOpen ? (
                 <>
@@ -120,20 +134,20 @@ const Layout = ({ children }) => {
                     {user?.avatar ? (
                       <img src={user.avatar} alt={`${user.firstName} ${user.lastName}`} className="h-8 w-8 rounded-full object-cover flex-shrink-0" />
                     ) : (
-                      <div className="h-8 w-8 rounded-full bg-primary-600 flex items-center justify-center text-white font-medium flex-shrink-0">
+                      <div className="h-8 w-8 rounded-full bg-primary-600 dark:bg-primary-500 flex items-center justify-center text-white font-medium flex-shrink-0">
                         {user?.firstName?.[0]}{user?.lastName?.[0]}
                       </div>
                     )}
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium text-gray-900 truncate">
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                         {user?.firstName} {user?.lastName}
                       </p>
-                      <p className="text-xs text-gray-500 truncate">{user?.role}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.role}</p>
                     </div>
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="p-2 text-gray-400 hover:text-gray-600 flex-shrink-0"
+                    className="p-2 text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-200 flex-shrink-0"
                     title="Logout"
                   >
                     <FiLogOut className="h-5 w-5" />
@@ -142,7 +156,7 @@ const Layout = ({ children }) => {
               ) : (
                 <button
                   onClick={handleLogout}
-                  className="p-2 text-gray-400 hover:text-gray-600"
+                  className="p-2 text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-200"
                   title="Logout"
                 >
                   <FiLogOut className="h-5 w-5" />
@@ -155,8 +169,8 @@ const Layout = ({ children }) => {
         {/* Mobile Sidebar */}
         {mobileMenuOpen && (
           <div className="fixed inset-0 z-40 lg:hidden" onClick={() => setMobileMenuOpen(false)}>
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
-            <aside className="fixed top-16 left-0 bottom-0 w-64 bg-white flex flex-col">
+            <div className="fixed inset-0 bg-gray-600 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75"></div>
+            <aside className="fixed top-16 left-0 bottom-0 w-64 bg-white dark:bg-gray-800 flex flex-col">
               <nav className="mt-5 px-2 space-y-1 flex-1 overflow-y-auto">
                 {menuItems.map((item) => {
                   const Icon = item.icon;
@@ -168,8 +182,8 @@ const Layout = ({ children }) => {
                       onClick={() => setMobileMenuOpen(false)}
                       className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                         isActive
-                          ? 'bg-primary-50 text-primary-600'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                          ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
+                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                       }`}
                     >
                       <Icon className="h-5 w-5 mr-3" />
@@ -183,8 +197,8 @@ const Layout = ({ children }) => {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                       location.pathname === '/settings'
-                        ? 'bg-primary-50 text-primary-600'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                        ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                     }`}
                   >
                     <FiSettings className="h-5 w-5 mr-3" />
@@ -194,16 +208,16 @@ const Layout = ({ children }) => {
               </nav>
               
               {/* Mobile Sidebar Footer */}
-              <div className="p-4 border-t border-gray-200 bg-white">
+              <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
                 <div className="flex items-center space-x-3 mb-3">
-                  <div className="h-10 w-10 rounded-full bg-primary-600 flex items-center justify-center text-white font-medium">
+                  <div className="h-10 w-10 rounded-full bg-primary-600 dark:bg-primary-500 flex items-center justify-center text-white font-medium">
                     {user?.firstName?.[0]}{user?.lastName?.[0]}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                       {user?.firstName} {user?.lastName}
                     </p>
-                    <p className="text-xs text-gray-500 truncate">{user?.role}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.role}</p>
                   </div>
                 </div>
                 <button
@@ -211,7 +225,7 @@ const Layout = ({ children }) => {
                     handleLogout();
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
+                  className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
                 >
                   <FiLogOut className="h-4 w-4 mr-2" />
                   Logout
@@ -223,7 +237,7 @@ const Layout = ({ children }) => {
 
         {/* Main Content */}
         <main className={`flex-1 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-16'} transition-all duration-300`}>
-          <div className="p-4 sm:p-6 lg:p-8">
+          <div className="p-4 sm:p-6 lg:p-8 bg-gray-50 dark:bg-gray-900 min-h-[calc(100vh-4rem)]">
             {children}
           </div>
         </main>

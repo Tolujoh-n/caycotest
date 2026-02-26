@@ -248,10 +248,10 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
   };
 
   return (
-    <div className="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-xl z-50 flex flex-col">
-      <div className="flex items-center justify-between p-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold">Task Details</h2>
-        <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
+    <div className="fixed inset-y-0 right-0 w-full md:w-96 bg-white dark:bg-gray-800 shadow-xl z-50 flex flex-col">
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Task Details</h2>
+        <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-700 dark:text-gray-300">
           <FiX className="h-5 w-5" />
         </button>
       </div>
@@ -315,24 +315,24 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
           ) : (
             <div>
               <div className="flex items-start justify-between mb-2">
-                <h3 className="text-lg font-semibold">{task.title}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{task.title}</h3>
                 <button
                   onClick={() => setEditing(true)}
-                  className="p-2 hover:bg-gray-100 rounded-lg"
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-700 dark:text-gray-300"
                 >
                   <FiEdit2 className="h-4 w-4" />
                 </button>
               </div>
-              <p className="text-gray-600 mb-4">{task.description || 'No description'}</p>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">{task.description || 'No description'}</p>
               <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">
+                <span className="px-2 py-1 text-xs font-medium bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 rounded">
                   {task.status}
                 </span>
-                <span className="px-2 py-1 text-xs font-medium bg-orange-100 text-orange-800 rounded">
+                <span className="px-2 py-1 text-xs font-medium bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-300 rounded">
                   {task.priority}
                 </span>
                 {task.dueDate && (
-                  <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded">
+                  <span className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded">
                     Due: {new Date(task.dueDate).toLocaleDateString()}
                   </span>
                 )}
@@ -344,7 +344,7 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
         {/* Assignees */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h4 className="font-semibold flex items-center gap-2">
+            <h4 className="font-semibold flex items-center gap-2 text-gray-900 dark:text-white">
               <FiUsers className="h-4 w-4" />
               Assigned To
             </h4>
@@ -362,7 +362,7 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
           </div>
           {editingAssignees ? (
             <div className="space-y-2">
-              <div className="max-h-48 overflow-y-auto border border-gray-300 rounded-md p-2">
+              <div className="max-h-48 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700/50">
                 {users.map((u) => (
                   <label key={u._id} className="flex items-center py-1">
                     <input
@@ -383,7 +383,7 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
                       }}
                       className="mr-2"
                     />
-                    <span className="text-sm text-gray-700">
+                    <span className="text-sm text-gray-700 dark:text-gray-300">
                       {u.firstName} {u.lastName}
                     </span>
                   </label>
@@ -410,7 +410,7 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
                 task.assignedTo.map((assignee, idx) => (
                   <div
                     key={assignee._id || idx}
-                    className="flex items-center gap-2 px-2 py-1 bg-gray-100 rounded text-sm"
+                    className="flex items-center gap-2 px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm text-gray-900 dark:text-gray-200"
                   >
                     {assignee.avatar ? (
                       <img src={assignee.avatar} alt={`${assignee.firstName} ${assignee.lastName}`} className="h-6 w-6 rounded-full object-cover" />
@@ -423,7 +423,7 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
                   </div>
                 ))
               ) : (
-                <span className="text-sm text-gray-500">No assignees</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">No assignees</span>
               )}
             </div>
           )}
@@ -432,54 +432,54 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
         {/* Subtasks */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h4 className="font-semibold">Subtasks</h4>
+            <h4 className="font-semibold text-gray-900 dark:text-white">Subtasks</h4>
             <button
               onClick={handleAddSubtask}
-              className="p-1 hover:bg-gray-100 rounded"
+              className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-gray-700 dark:text-gray-300"
             >
               <FiPlus className="h-4 w-4" />
             </button>
           </div>
           <div className="space-y-2">
             {subtasks.map((subtask, idx) => (
-              <div key={idx} className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded">
+              <div key={idx} className="flex items-center gap-2 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded">
                 <button
                   onClick={() => handleToggleSubtask(idx)}
-                  className={`p-1 rounded ${subtask.completed ? 'bg-green-100 text-green-600' : 'border border-gray-300'}`}
+                  className={`p-1 rounded ${subtask.completed ? 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400' : 'border border-gray-300 dark:border-gray-600'}`}
                 >
                   <FiCheck className="h-3 w-3" />
                 </button>
-                <span className={subtask.completed ? 'line-through text-gray-500' : ''}>
+                <span className={subtask.completed ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-gray-200'}>
                   {subtask.title}
                 </span>
               </div>
             ))}
             {subtasks.length === 0 && (
-              <p className="text-sm text-gray-500">No subtasks</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">No subtasks</p>
             )}
           </div>
         </div>
 
         {/* Comments */}
         <div>
-          <h4 className="font-semibold mb-3">Comments</h4>
+          <h4 className="font-semibold mb-3 text-gray-900 dark:text-white">Comments</h4>
           <div className="space-y-3 mb-4">
             {comments.map(comment => (
-              <div key={comment._id} className="p-3 bg-gray-50 rounded-lg">
+              <div key={comment._id} className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="h-6 w-6 rounded-full bg-primary-100 flex items-center justify-center text-xs font-medium text-primary-700">
+                  <div className="h-6 w-6 rounded-full bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center text-xs font-medium text-primary-700 dark:text-primary-400">
                     {comment.sender?.firstName?.[0]}{comment.sender?.lastName?.[0]}
                   </div>
                   <div>
-                    <div className="text-sm font-medium">
+                    <div className="text-sm font-medium text-gray-900 dark:text-white">
                       {comment.sender?.firstName} {comment.sender?.lastName}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       {new Date(comment.createdAt).toLocaleString()}
                     </div>
                   </div>
                 </div>
-                <p className="text-sm text-gray-700">{comment.content}</p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">{comment.content}</p>
               </div>
             ))}
           </div>
@@ -501,7 +501,7 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
         {/* Attachments */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h4 className="font-semibold flex items-center gap-2">
+            <h4 className="font-semibold flex items-center gap-2 text-gray-900 dark:text-white">
               <FiPaperclip className="h-4 w-4" />
               Attachments
             </h4>
@@ -512,7 +512,7 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
                 disabled={uploading}
                 className="hidden"
               />
-              <div className="p-2 hover:bg-gray-100 rounded-lg">
+              <div className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-primary-600 dark:text-primary-400">
                 {uploading ? (
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-600"></div>
                 ) : (
@@ -527,7 +527,7 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
               const imageUrl = file.cloudinaryUrl || (file.filePath ? `/api/files/${file._id}/download` : null);
               
               return (
-                <div key={file._id} className="flex items-center justify-between p-2 border border-gray-200 rounded-lg">
+                <div key={file._id} className="flex items-center justify-between p-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700/50">
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     {isImage && imageUrl ? (
                       <div 
@@ -543,7 +543,7 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
                     ) : (
                       <FiPaperclip className="h-4 w-4 text-gray-400 flex-shrink-0" />
                     )}
-                    <span className="text-sm truncate">{file.originalName || file.name}</span>
+                    <span className="text-sm truncate text-gray-900 dark:text-gray-200">{file.originalName || file.name}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
@@ -567,7 +567,7 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
               );
             })}
             {attachments.length === 0 && (
-              <p className="text-sm text-gray-500">No attachments</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">No attachments</p>
             )}
           </div>
         </div>
@@ -589,10 +589,10 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
       {imageModal.isOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-75" onClick={() => setImageModal({ isOpen: false, url: '', name: '' })}>
           <div className="flex items-center justify-center min-h-screen px-4 py-8">
-            <div className="relative max-w-3xl w-full bg-white rounded-lg shadow-2xl p-4">
+            <div className="relative max-w-3xl w-full bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-4">
               <button
                 onClick={() => setImageModal({ isOpen: false, url: '', name: '' })}
-                className="absolute top-2 right-2 z-10 p-2 bg-gray-100 rounded-full hover:bg-gray-200"
+                className="absolute top-2 right-2 z-10 p-2 bg-gray-100 dark:bg-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
               >
                 <FiX className="h-5 w-5" />
               </button>
@@ -602,7 +602,7 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
                 className="w-full h-auto rounded-lg max-h-[70vh] object-contain"
                 onClick={(e) => e.stopPropagation()}
               />
-              <div className="mt-2 text-center text-sm text-gray-600">{imageModal.name}</div>
+              <div className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">{imageModal.name}</div>
             </div>
           </div>
         </div>
@@ -613,9 +613,9 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onClick={() => setSubtaskModal({ isOpen: false, title: '' })}></div>
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Add Subtask</h3>
+            <div className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <div className="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">Add Subtask</h3>
                 <input
                   type="text"
                   className="input w-full"
@@ -630,18 +630,18 @@ const TaskDetailSidebar = ({ task, onClose, onUpdate }) => {
                   autoFocus
                 />
               </div>
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <div className="bg-gray-50 dark:bg-gray-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
                   onClick={confirmAddSubtask}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-600 text-base font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-600 dark:bg-primary-500 text-base font-medium text-white hover:bg-primary-700 dark:hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Add
                 </button>
                 <button
                   type="button"
                   onClick={() => setSubtaskModal({ isOpen: false, title: '' })}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Cancel
                 </button>

@@ -20,11 +20,11 @@ const SortableTab = ({ tab, activeTabId, onActivate, onMenuClick, menuTabId }) =
       <button
         onClick={() => onActivate(tab.id)}
         className={`px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap flex items-center gap-2 transition-colors ${
-          activeTabId === tab.id ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50'
+          activeTabId === tab.id ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
         }`}
       >
         <span {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
-          <FiMenu className="h-4 w-4 text-gray-400" />
+          <FiMenu className="h-4 w-4 text-gray-400 dark:text-gray-500" />
         </span>
         <span>{tab.label}</span>
         <button
@@ -33,7 +33,7 @@ const SortableTab = ({ tab, activeTabId, onActivate, onMenuClick, menuTabId }) =
             e.stopPropagation();
             onMenuClick(tab.id);
           }}
-          className="p-1 rounded hover:bg-white/60"
+          className="p-1 rounded hover:bg-white/60 dark:hover:bg-gray-600"
           title="Tab actions"
         >
           <FiMoreHorizontal className="h-4 w-4" />
@@ -276,10 +276,10 @@ const WorkSubTabs = ({ scopeLabel, tabs, activeTabId, onChangeActive, onChangeTa
 
   return (
     <>
-      <div className="bg-white border border-gray-200 rounded-xl">
-        <div className="px-4 py-3 border-b border-gray-200">
-          <div className="text-sm text-gray-600">
-            <span className="font-semibold text-gray-900">{scopeLabel}</span>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
+        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            <span className="font-semibold text-gray-900 dark:text-white">{scopeLabel}</span>
           </div>
         </div>
 
@@ -304,9 +304,9 @@ const WorkSubTabs = ({ scopeLabel, tabs, activeTabId, onChangeActive, onChangeTa
           </DndContext>
 
           {menuTabId && (
-            <div className="absolute z-30 mt-12 ml-2 w-56 bg-white border border-gray-200 rounded-lg shadow-xl p-1 tab-menu">
+            <div className="absolute z-30 mt-12 ml-2 w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl p-1 tab-menu">
               <button
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 rounded"
+                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 rounded text-gray-700 dark:text-gray-300"
                 onClick={() => {
                   const tab = tabs.find(t => t.id === menuTabId);
                   setShowRenameModal({ isOpen: true, tabId: menuTabId, label: tab?.label || '' });
@@ -316,20 +316,20 @@ const WorkSubTabs = ({ scopeLabel, tabs, activeTabId, onChangeActive, onChangeTa
                 Rename
               </button>
               <button
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 rounded"
+                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 rounded text-gray-700 dark:text-gray-300"
                 onClick={() => handleSetDefaultTab(menuTabId)}
               >
                 Set as default
               </button>
               <button
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 rounded"
+                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 rounded text-gray-700 dark:text-gray-300"
                 onClick={() => handleDuplicateTab(menuTabId)}
               >
                 Make a copy
               </button>
-              <div className="border-t border-gray-200 my-1" />
+              <div className="border-t border-gray-200 dark:border-gray-700 my-1" />
               <button
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 rounded text-red-600"
+                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 rounded text-red-600 dark:text-red-400"
                 onClick={() => handleDisableTab(menuTabId)}
               >
                 Remove tab
@@ -341,7 +341,7 @@ const WorkSubTabs = ({ scopeLabel, tabs, activeTabId, onChangeActive, onChangeTa
             <button
               type="button"
               onClick={() => setShowAddModal(true)}
-              className="p-2 rounded-lg hover:bg-gray-50 text-gray-700 transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors"
               title={availableTabsToAdd.length ? `Add tab (${availableTabsToAdd.length} available)` : 'All tabs added'}
             >
               <FiPlus className="h-5 w-5" />
@@ -354,30 +354,30 @@ const WorkSubTabs = ({ scopeLabel, tabs, activeTabId, onChangeActive, onChangeTa
       {showAddModal && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onClick={() => setShowAddModal(false)}></div>
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div className="fixed inset-0 transition-opacity bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75" onClick={() => setShowAddModal(false)}></div>
+            <div className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <div className="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">Add Tab</h3>
+                  <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">Add Tab</h3>
                   <button
                     onClick={() => setShowAddModal(false)}
-                    className="text-gray-400 hover:text-gray-500"
+                    className="text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400"
                   >
                     <FiX className="h-5 w-5" />
                   </button>
                 </div>
                 {availableTabsToAdd.length === 0 ? (
-                  <p className="text-gray-500">All tabs are already added</p>
+                  <p className="text-gray-500 dark:text-gray-400">All tabs are already added</p>
                 ) : (
                   <div className="space-y-2 max-h-96 overflow-y-auto">
                     {availableTabsToAdd.map((tab) => (
                       <button
                         key={tab.id}
                         onClick={() => handleEnableTab(tab.id)}
-                        className="w-full text-left px-4 py-3 hover:bg-gray-50 rounded-lg border border-gray-200"
+                        className="w-full text-left px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-700"
                       >
-                        <div className="font-medium">{tab.label}</div>
-                        <div className="text-sm text-gray-500">{tab.id}</div>
+                        <div className="font-medium text-gray-900 dark:text-white">{tab.label}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">{tab.id}</div>
                       </button>
                     ))}
                   </div>
@@ -392,21 +392,21 @@ const WorkSubTabs = ({ scopeLabel, tabs, activeTabId, onChangeActive, onChangeTa
       {showRenameModal.isOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onClick={() => setShowRenameModal({ isOpen: false, tabId: null, label: '' })}></div>
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div className="fixed inset-0 transition-opacity bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75" onClick={() => setShowRenameModal({ isOpen: false, tabId: null, label: '' })}></div>
+            <div className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <div className="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">Rename Tab</h3>
+                  <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">Rename Tab</h3>
                   <button
                     onClick={() => setShowRenameModal({ isOpen: false, tabId: null, label: '' })}
-                    className="text-gray-400 hover:text-gray-500"
+                    className="text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400"
                   >
                     <FiX className="h-5 w-5" />
                   </button>
                 </div>
                 <input
                   type="text"
-                  className="input w-full"
+                  className="input w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                   placeholder="Tab name"
                   value={showRenameModal.label}
                   onChange={(e) => setShowRenameModal({ ...showRenameModal, label: e.target.value })}
@@ -418,18 +418,18 @@ const WorkSubTabs = ({ scopeLabel, tabs, activeTabId, onChangeActive, onChangeTa
                   autoFocus
                 />
               </div>
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <div className="bg-gray-50 dark:bg-gray-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
                   onClick={handleRename}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-600 text-base font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-600 dark:bg-primary-500 text-base font-medium text-white hover:bg-primary-700 dark:hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Rename
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowRenameModal({ isOpen: false, tabId: null, label: '' })}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Cancel
                 </button>

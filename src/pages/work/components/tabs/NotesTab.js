@@ -95,14 +95,14 @@ const NotesTab = ({ projectId, teamId, type = 'project' }) => {
     }
   };
 
-  if (loading) return <div className="text-center py-8">Loading notes...</div>;
+  if (loading) return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading notes...</div>;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-[600px]">
       {/* Notes List */}
-      <div className="lg:col-span-1 border border-gray-200 rounded-lg overflow-hidden flex flex-col">
-        <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-          <h3 className="font-semibold">Notes</h3>
+      <div className="lg:col-span-1 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden flex flex-col bg-white dark:bg-gray-800">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+          <h3 className="font-semibold text-gray-900 dark:text-white">Notes</h3>
           <button
             onClick={handleCreateNote}
             className="btn btn-sm btn-primary flex items-center gap-2"
@@ -120,20 +120,20 @@ const NotesTab = ({ projectId, teamId, type = 'project' }) => {
                 setNoteContent(note.content);
                 setNoteTitle(note.title || note.content.substring(0, 50) + (note.content.length > 50 ? '...' : ''));
               }}
-              className={`p-3 border rounded-lg cursor-pointer hover:bg-gray-50 ${
-                activeNote?._id === note._id ? 'border-primary-500 bg-primary-50' : 'border-gray-200'
+              className={`p-3 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 ${
+                activeNote?._id === note._id ? 'border-primary-500 dark:border-primary-400 bg-primary-50 dark:bg-primary-900/30' : 'border-gray-200 dark:border-gray-600'
               }`}
             >
-              <div className="text-sm font-medium mb-1 line-clamp-2">
+              <div className="text-sm font-medium mb-1 line-clamp-2 text-gray-900 dark:text-white">
                 {note.content.substring(0, 50)}{note.content.length > 50 ? '...' : ''}
               </div>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-gray-500 dark:text-gray-400">
                 {new Date(note.createdAt).toLocaleDateString()}
               </div>
             </div>
           ))}
           {notes.length === 0 && (
-            <div className="text-center py-8 text-gray-500 text-sm">
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400 text-sm">
               No notes yet
             </div>
           )}
@@ -141,16 +141,16 @@ const NotesTab = ({ projectId, teamId, type = 'project' }) => {
       </div>
 
       {/* Note Editor */}
-      <div className="lg:col-span-2 border border-gray-200 rounded-lg flex flex-col">
-        <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-          <h3 className="font-semibold">
+      <div className="lg:col-span-2 border border-gray-200 dark:border-gray-700 rounded-lg flex flex-col bg-white dark:bg-gray-800">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+          <h3 className="font-semibold text-gray-900 dark:text-white">
             {activeNote ? 'Edit Note' : 'New Note'}
           </h3>
           <div className="flex gap-2">
             {activeNote && (
               <button
                 onClick={() => handleDeleteNote(activeNote._id)}
-                className="p-2 hover:bg-red-50 text-red-600 rounded-lg"
+                className="p-2 hover:bg-red-50 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg"
               >
                 <FiTrash2 className="h-4 w-4" />
               </button>
@@ -166,7 +166,7 @@ const NotesTab = ({ projectId, teamId, type = 'project' }) => {
         </div>
         <div className="flex-1 p-4">
           <textarea
-            className="w-full h-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
+            className="w-full h-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
             placeholder="Start writing your note..."
             value={noteContent}
             onChange={(e) => setNoteContent(e.target.value)}

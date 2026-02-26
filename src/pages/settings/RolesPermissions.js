@@ -224,8 +224,8 @@ const RolesPermissions = () => {
     return (
       <div className="flex flex-col items-center justify-center py-12 px-4">
         <FiLock className="h-16 w-16 text-gray-400 mb-4" />
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Access Restricted</h3>
-        <p className="text-sm text-gray-600 text-center max-w-md">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Access Restricted</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 text-center max-w-md">
           Only Company Owners can access roles and permissions management. Please contact your Company Owner for assistance.
         </p>
       </div>
@@ -233,15 +233,15 @@ const RolesPermissions = () => {
   }
 
   if (loading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading...</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">Roles & Permissions</h2>
-          <p className="text-sm text-gray-600">Manage roles and their permissions</p>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Roles & Permissions</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Manage roles and their permissions</p>
         </div>
         <button
           onClick={() => handleOpenModal()}
@@ -263,29 +263,29 @@ const RolesPermissions = () => {
               <div className="flex justify-between items-start mb-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-gray-900">{role.name}</h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">{role.name}</h3>
                     {role.isSystemRole && (
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                      <span className="text-xs bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 px-2 py-1 rounded">
                         System
                       </span>
                     )}
                   </div>
                   {role.description && (
-                    <p className="text-sm text-gray-600 mt-1">{role.description}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{role.description}</p>
                   )}
                 </div>
                 {!role.isSystemRole && (
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleOpenModal(role)}
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                       title="Edit role"
                     >
                       <FiEdit2 className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => handleDelete(role._id)}
-                      className="text-red-400 hover:text-red-600 transition-colors"
+                      className="text-red-400 dark:text-red-500 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                       title="Delete role"
                     >
                       <FiTrash2 className="h-4 w-4" />
@@ -298,14 +298,14 @@ const RolesPermissions = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <FiUsers className="h-4 w-4 text-gray-500" />
-                    <p className="text-xs font-medium text-gray-500 uppercase">
+                    <FiUsers className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                       Members ({memberCount})
                     </p>
                   </div>
                   <button
                     onClick={() => handleOpenMemberModal(role)}
-                    className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"
+                    className="text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium flex items-center gap-1"
                   >
                     <FiUserPlus className="h-3 w-3" />
                     Manage
@@ -317,12 +317,12 @@ const RolesPermissions = () => {
                     {members.slice(0, 3).map((member) => (
                       <div
                         key={member._id}
-                        className="flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded text-xs"
+                        className="flex items-center gap-1.5 bg-gray-50 dark:bg-gray-700/50 px-2 py-1 rounded text-xs"
                       >
-                        <div className="w-5 h-5 rounded-full bg-primary-200 flex items-center justify-center text-primary-700 font-medium">
+                        <div className="w-5 h-5 rounded-full bg-primary-200 dark:bg-primary-900/40 flex items-center justify-center text-primary-700 dark:text-primary-400 font-medium">
                           {member.firstName?.[0] || member.email[0].toUpperCase()}
                         </div>
-                        <span className="text-gray-700">
+                        <span className="text-gray-700 dark:text-gray-300">
                           {member.firstName && member.lastName
                             ? `${member.firstName} ${member.lastName}`
                             : member.email}
@@ -330,28 +330,28 @@ const RolesPermissions = () => {
                       </div>
                     ))}
                     {memberCount > 3 && (
-                      <div className="flex items-center bg-gray-50 px-2 py-1 rounded text-xs text-gray-600">
+                      <div className="flex items-center bg-gray-50 dark:bg-gray-700/50 px-2 py-1 rounded text-xs text-gray-600 dark:text-gray-400">
                         +{memberCount - 3} more
                       </div>
                     )}
                   </div>
                 ) : (
-                  <p className="text-xs text-gray-400 italic">No members assigned</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 italic">No members assigned</p>
                 )}
               </div>
 
               {/* Permissions Section */}
-              <div className="space-y-2 mt-4 pt-4 border-t border-gray-200">
-                <p className="text-xs font-medium text-gray-500 uppercase">Permissions</p>
+              <div className="space-y-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Permissions</p>
                 <div className="flex flex-wrap gap-2">
                   {role.permissions.length > 0 ? (
                     role.permissions.map((perm, idx) => (
-                      <span key={idx} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
+                      <span key={idx} className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded">
                         {perm.resource}: {perm.actions.join(', ')}
                       </span>
                     ))
                   ) : (
-                    <span className="text-xs text-gray-400 italic">No permissions set</span>
+                    <span className="text-xs text-gray-400 dark:text-gray-500 italic">No permissions set</span>
                   )}
                 </div>
               </div>
@@ -362,16 +362,16 @@ const RolesPermissions = () => {
 
       {/* Create/Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   {editingRole ? 'Edit Role' : 'Create New Role'}
                 </h3>
                 <button
                   onClick={handleCloseModal}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   <FiX className="h-5 w-5" />
                 </button>
@@ -380,7 +380,7 @@ const RolesPermissions = () => {
 
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Role Name *</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Role Name *</label>
                 <input
                   type="text"
                   required
@@ -392,7 +392,7 @@ const RolesPermissions = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
                 <textarea
                   className="input"
                   rows="2"
@@ -402,11 +402,11 @@ const RolesPermissions = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-4">Permissions</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Permissions</label>
                 <div className="space-y-4">
                   {resources.map((resource) => (
-                    <div key={resource.id} className="border border-gray-200 rounded-lg p-4">
-                      <h4 className="font-medium text-gray-900 mb-3">{resource.label}</h4>
+                    <div key={resource.id} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                      <h4 className="font-medium text-gray-900 dark:text-white mb-3">{resource.label}</h4>
                       <div className="flex flex-wrap gap-2">
                         {actions.map((action) => (
                           <label
@@ -420,7 +420,7 @@ const RolesPermissions = () => {
                               disabled={editingRole?.isSystemRole}
                               className="mr-2"
                             />
-                            <span className="text-sm text-gray-700">{action.label}</span>
+                            <span className="text-sm text-gray-700 dark:text-gray-300">{action.label}</span>
                           </label>
                         ))}
                       </div>
@@ -429,7 +429,7 @@ const RolesPermissions = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t">
+              <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <button
                   type="button"
                   onClick={handleCloseModal}
@@ -453,15 +453,15 @@ const RolesPermissions = () => {
 
       {/* Manage Members Modal */}
       {showMemberModal && selectedRole && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <div className="flex justify-between items-center">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                     Manage Members - {selectedRole.name}
                   </h3>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     Add or remove team members from this role
                   </p>
                 </div>
@@ -470,7 +470,7 @@ const RolesPermissions = () => {
                     setShowMemberModal(false);
                     setSelectedRole(null);
                   }}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   <FiX className="h-5 w-5" />
                 </button>
@@ -480,7 +480,7 @@ const RolesPermissions = () => {
             <div className="p-6 space-y-6">
               {/* Current Members */}
               <div>
-                <h4 className="text-sm font-medium text-gray-900 mb-3">
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
                   Current Members ({roleMembers[selectedRole._id]?.length || 0})
                 </h4>
                 {roleMembers[selectedRole._id] && roleMembers[selectedRole._id].length > 0 ? (
@@ -488,24 +488,24 @@ const RolesPermissions = () => {
                     {roleMembers[selectedRole._id].map((member) => (
                       <div
                         key={member._id}
-                        className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                        className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-primary-200 flex items-center justify-center text-primary-700 font-medium">
+                          <div className="w-10 h-10 rounded-full bg-primary-200 dark:bg-primary-900/40 flex items-center justify-center text-primary-700 dark:text-primary-400 font-medium">
                             {member.firstName?.[0] || member.email[0].toUpperCase()}
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-gray-900">
+                            <p className="text-sm font-medium text-gray-900 dark:text-white">
                               {member.firstName && member.lastName
                                 ? `${member.firstName} ${member.lastName}`
                                 : member.email}
                             </p>
-                            <p className="text-xs text-gray-500">{member.email}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">{member.email}</p>
                           </div>
                         </div>
                         <button
                           onClick={() => handleUnassignUser(member._id)}
-                          className="text-red-600 hover:text-red-700 flex items-center gap-1 text-sm font-medium"
+                          className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 flex items-center gap-1 text-sm font-medium"
                         >
                           <FiUserMinus className="h-4 w-4" />
                           Remove
@@ -514,37 +514,37 @@ const RolesPermissions = () => {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-400 italic py-4">No members assigned to this role</p>
+                  <p className="text-sm text-gray-400 dark:text-gray-500 italic py-4">No members assigned to this role</p>
                 )}
               </div>
 
               {/* Available Users */}
               <div>
-                <h4 className="text-sm font-medium text-gray-900 mb-3">Add Members</h4>
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Add Members</h4>
                 <div className="space-y-2 max-h-64 overflow-y-auto">
                   {users
                     .filter(user => !isUserInRole(user._id) && user.isActive)
                     .map((user) => (
                       <div
                         key={user._id}
-                        className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
+                        className="flex items-center justify-between p-3 bg-white dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 font-medium">
+                          <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-gray-700 dark:text-gray-300 font-medium">
                             {user.firstName?.[0] || user.email[0].toUpperCase()}
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-gray-900">
+                            <p className="text-sm font-medium text-gray-900 dark:text-white">
                               {user.firstName && user.lastName
                                 ? `${user.firstName} ${user.lastName}`
                                 : user.email}
                             </p>
-                            <p className="text-xs text-gray-500">{user.email}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
                           </div>
                         </div>
                         <button
                           onClick={() => handleAssignUser(user._id)}
-                          className="text-primary-600 hover:text-primary-700 flex items-center gap-1 text-sm font-medium"
+                          className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 flex items-center gap-1 text-sm font-medium"
                         >
                           <FiUserPlus className="h-4 w-4" />
                           Add
@@ -552,7 +552,7 @@ const RolesPermissions = () => {
                       </div>
                     ))}
                   {users.filter(user => !isUserInRole(user._id) && user.isActive).length === 0 && (
-                    <p className="text-sm text-gray-400 italic py-4">All active users are already assigned to this role</p>
+                    <p className="text-sm text-gray-400 dark:text-gray-500 italic py-4">All active users are already assigned to this role</p>
                   )}
                 </div>
               </div>

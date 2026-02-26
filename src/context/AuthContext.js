@@ -80,7 +80,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(user));
       setUser(user);
       
-      toast.success('Registration successful!');
+      toast.success('Registration successful! Let\'s get you set up.', {
+        duration: 4000,
+      });
       return { success: true };
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message || 'Registration failed. Please try again.';

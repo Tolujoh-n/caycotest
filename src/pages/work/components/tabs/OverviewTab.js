@@ -317,18 +317,18 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
 
   const totalPages = (items) => Math.ceil(items.length / itemsPerPage);
 
-  if (loading) return <div className="text-center py-8">Loading...</div>;
+  if (loading) return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading...</div>;
 
   return (
     <div className="space-y-6">
       {/* Description */}
       <div className="card">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Description</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Description</h3>
           {canEdit && (
             <button
               onClick={() => setEditing({ ...editing, description: !editing.description })}
-              className="p-2 hover:bg-gray-100 rounded-lg"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-700 dark:text-gray-300"
             >
               <FiEdit2 className="h-4 w-4" />
             </button>
@@ -337,7 +337,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
         {editing.description ? (
           <div className="space-y-3">
             <textarea
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               rows="4"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -356,7 +356,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
             </div>
           </div>
         ) : (
-          <p className="text-gray-700 whitespace-pre-wrap">
+          <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
             {data?.description || 'No description yet. Click edit to add one.'}
           </p>
         )}
@@ -365,7 +365,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
       {/* Members */}
       <div className="card">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Members</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Members</h3>
           {canEdit && (
             <button
               onClick={() => setShowAddMember(!showAddMember)}
@@ -377,23 +377,23 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
           )}
         </div>
         {showAddMember && (
-          <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+          <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
             <div className="space-y-2">
               {availableUsers
                 .filter(u => !members.some(m => (m._id || m.id) === (u._id || u.id)))
                 .map(u => (
-                  <div key={u._id || u.id} className="flex items-center justify-between p-2 hover:bg-white rounded">
+                  <div key={u._id || u.id} className="flex items-center justify-between p-2 hover:bg-white dark:hover:bg-gray-600 rounded">
                     <div className="flex items-center gap-3">
                       {u.avatar ? (
                         <img src={u.avatar} alt={`${u.firstName} ${u.lastName}`} className="h-8 w-8 rounded-full object-cover" />
                       ) : (
-                        <div className="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-medium">
+                        <div className="h-8 w-8 rounded-full bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center text-primary-700 dark:text-primary-400 font-medium">
                           {u.firstName?.[0]}{u.lastName?.[0]}
                         </div>
                       )}
                       <div>
-                        <div className="font-medium">{u.firstName} {u.lastName}</div>
-                        <div className="text-sm text-gray-500">{u.email}</div>
+                        <div className="font-medium text-gray-900 dark:text-white">{u.firstName} {u.lastName}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">{u.email}</div>
                       </div>
                     </div>
                     <button
@@ -409,24 +409,24 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {members.map(member => (
-            <div key={member._id || member.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+            <div key={member._id || member.id} className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800/50">
               <div className="flex items-center gap-3">
                 {member.avatar ? (
                   <img src={member.avatar} alt={`${member.firstName} ${member.lastName}`} className="h-10 w-10 rounded-full object-cover" />
                 ) : (
-                  <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-medium">
+                  <div className="h-10 w-10 rounded-full bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center text-primary-700 dark:text-primary-400 font-medium">
                     {member.firstName?.[0]}{member.lastName?.[0]}
                   </div>
                 )}
                 <div>
-                  <div className="font-medium">{member.firstName} {member.lastName}</div>
-                  <div className="text-sm text-gray-500">{member.email}</div>
+                  <div className="font-medium text-gray-900 dark:text-white">{member.firstName} {member.lastName}</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">{member.email}</div>
                 </div>
               </div>
               {canEdit && (member._id || member.id) !== user?.id && (
                 <button
                   onClick={() => handleRemoveMember(member._id || member.id)}
-                  className="p-2 hover:bg-red-50 text-red-600 rounded-lg"
+                  className="p-2 hover:bg-red-50 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg"
                 >
                   <FiX className="h-4 w-4" />
                 </button>
@@ -439,7 +439,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
       {/* Key Resources */}
       <div className="card">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Key Resources</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Key Resources</h3>
           <div className="flex gap-2">
             <button
               onClick={() => setEditing({ ...editing, resource: 'file' })}
@@ -460,8 +460,8 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
 
         {/* Add File Form */}
         {editing.resource === 'file' && (
-          <div className="mb-4 p-4 bg-gray-50 rounded-lg">
-            <label className="block mb-2 text-sm font-medium text-gray-700">
+          <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
               Select File
             </label>
             <input
@@ -470,10 +470,10 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
               disabled={uploadingFile}
               className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
             />
-            {uploadingFile && <p className="mt-2 text-sm text-gray-600">Uploading...</p>}
+            {uploadingFile && <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">Uploading...</p>}
             <button
               onClick={() => setEditing({ ...editing, resource: null })}
-              className="mt-2 text-sm text-gray-600 hover:text-gray-800"
+              className="mt-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
             >
               Cancel
             </button>
@@ -482,7 +482,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
 
         {/* Add Link Form */}
         {editing.resource === 'link' && (
-          <div className="mb-4 p-4 bg-gray-50 rounded-lg space-y-3">
+          <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg space-y-3">
             <input
               type="url"
               placeholder="Enter URL (e.g., https://example.com)"
@@ -510,12 +510,12 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
         {/* Files Section */}
         {files.length > 0 && (
           <div className="mb-6">
-            <h4 className="text-sm font-semibold text-gray-700 mb-3">Files ({files.length})</h4>
+            <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Files ({files.length})</h4>
             <div className="space-y-2">
               {getPaginatedFiles().map(file => {
                 const isImage = file.mimeType?.startsWith('image/') || file.originalName?.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i);
                 return (
-                  <div key={file._id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                  <div key={file._id} className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
                       {isImage && file.cloudinaryUrl ? (
                         <img 
@@ -527,8 +527,8 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
                         <FiFile className="h-5 w-5 text-gray-400 flex-shrink-0" />
                       )}
                       <div className="flex-1 min-w-0">
-                        <div className="font-medium truncate">{file.originalName}</div>
-                        <div className="text-sm text-gray-500">
+                        <div className="font-medium truncate text-gray-900 dark:text-white">{file.originalName}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
                           {(file.size / 1024).toFixed(1)} KB • {new Date(file.createdAt).toLocaleDateString()}
                         </div>
                       </div>
@@ -564,7 +564,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
                 >
                   Previous
                 </button>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-gray-600 dark:text-gray-400">
                   Page {currentPage.files} of {totalPages(files)}
                 </span>
                 <button
@@ -582,10 +582,10 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
         {/* Links Section */}
         {links.length > 0 && (
           <div>
-            <h4 className="text-sm font-semibold text-gray-700 mb-3">Links ({links.length})</h4>
+            <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Links ({links.length})</h4>
             <div className="space-y-3">
               {getPaginatedLinks().map(link => (
-                <div key={link._id} className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                <div key={link._id} className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
                   <div className="flex items-start gap-3">
                     {link.image && (
                       <img src={link.image} alt={link.title} className="w-20 h-20 object-cover rounded flex-shrink-0" />
@@ -604,7 +604,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
                         <FiExternalLink className="h-3 w-3" />
                       </a>
                       {link.description && (
-                        <p className="text-sm text-gray-600 mt-1 line-clamp-2">{link.description}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">{link.description}</p>
                       )}
                       <div className="flex items-center gap-2 mt-2">
                         {link.siteName && (
@@ -635,7 +635,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
                 >
                   Previous
                 </button>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-gray-600 dark:text-gray-400">
                   Page {currentPage.links} of {totalPages(links)}
                 </span>
                 <button
@@ -651,14 +651,14 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
         )}
 
         {files.length === 0 && links.length === 0 && (
-          <p className="text-gray-500 text-center py-4">No resources added yet. Add files or links to get started.</p>
+          <p className="text-gray-500 dark:text-gray-400 text-center py-4">No resources added yet. Add files or links to get started.</p>
         )}
       </div>
 
       {/* Milestones */}
       <div className="card">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Milestones</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Milestones</h3>
           {canEdit && (
             <button
               onClick={() => setEditing({ ...editing, milestone: 'new' })}
@@ -670,7 +670,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
           )}
         </div>
         {editing.milestone === 'new' && (
-          <div className="mb-4 p-4 bg-gray-50 rounded-lg space-y-3">
+          <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg space-y-3">
             <input
               type="text"
               placeholder="Milestone title"
@@ -702,15 +702,15 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
             <div
               key={milestone._id}
               className={`flex items-center gap-3 p-3 border rounded-lg ${
-                milestone.completed ? 'bg-green-50 border-green-200' : 'bg-white border-gray-200'
+                milestone.completed ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800' : 'bg-white dark:bg-gray-800/50 border-gray-200 dark:border-gray-600'
               }`}
             >
               <button
                 onClick={() => canEdit && handleToggleMilestone(milestone._id, milestone.completed)}
                 className={`p-2 rounded-lg transition-colors ${
                   milestone.completed 
-                    ? 'bg-green-100 text-green-600' 
-                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                    ? 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400' 
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-600'
                 } ${canEdit ? 'cursor-pointer' : 'cursor-default'}`}
               >
                 {milestone.completed ? (
@@ -720,10 +720,10 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
                 )}
               </button>
               <div className="flex-1">
-                <div className={`font-medium ${milestone.completed ? 'line-through text-gray-500' : ''}`}>
+                <div className={`font-medium ${milestone.completed ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}>
                   {milestone.title}
                 </div>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-gray-500 dark:text-gray-400">
                   {new Date(milestone.dueDate).toLocaleDateString()}
                   {milestone.completed && milestone.completedBy && (
                     <span> • Completed by {milestone.completedBy.firstName} {milestone.completedBy.lastName}</span>
@@ -733,7 +733,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
               {canEdit && (
                 <button
                   onClick={() => handleDeleteMilestone(milestone._id)}
-                  className="p-2 hover:bg-red-50 text-red-600 rounded-lg"
+                  className="p-2 hover:bg-red-50 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg"
                 >
                   <FiTrash2 className="h-4 w-4" />
                 </button>
@@ -741,7 +741,7 @@ const OverviewTab = ({ projectId, teamId, type = 'project' }) => {
             </div>
           ))}
           {milestones.length === 0 && (
-            <p className="text-gray-500 text-center py-4">No milestones yet. Add one to track progress.</p>
+            <p className="text-gray-500 dark:text-gray-400 text-center py-4">No milestones yet. Add one to track progress.</p>
           )}
         </div>
       </div>

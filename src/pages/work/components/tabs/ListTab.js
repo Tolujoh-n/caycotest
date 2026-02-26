@@ -243,7 +243,7 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
             </div>
             <button
               onClick={() => handleTaskClick(info.row.original)}
-              className="text-left hover:text-primary-600 font-medium"
+              className="text-left hover:text-primary-600 dark:hover:text-primary-400 font-medium text-gray-900 dark:text-white"
             >
               {info.getValue()}
             </button>
@@ -254,20 +254,20 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
         header: 'Assignee',
         cell: (info) => {
           const assignees = info.getValue() || [];
-          if (assignees.length === 0) return <span className="text-gray-400">Unassigned</span>;
+          if (assignees.length === 0) return <span className="text-gray-400 dark:text-gray-500">Unassigned</span>;
           return (
             <div className="flex -space-x-2">
               {assignees.slice(0, 3).map((assignee, idx) => (
                 <div
                   key={assignee._id || idx}
-                  className="h-6 w-6 rounded-full bg-primary-100 flex items-center justify-center text-xs font-medium text-primary-700 border-2 border-white"
+                  className="h-6 w-6 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-xs font-medium text-primary-700 dark:text-primary-300 border-2 border-white dark:border-gray-800"
                   title={`${assignee.firstName} ${assignee.lastName}`}
                 >
                   {assignee.firstName?.[0]}{assignee.lastName?.[0]}
                 </div>
               ))}
               {assignees.length > 3 && (
-                <div className="h-6 w-6 rounded-full bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-600 border-2 border-white">
+                <div className="h-6 w-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-xs font-medium text-gray-600 dark:text-gray-300 border-2 border-white dark:border-gray-800">
                   +{assignees.length - 3}
                 </div>
               )}
@@ -279,13 +279,13 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
         header: 'Due Date',
         cell: (info) => {
           const date = info.getValue();
-          if (!date) return <span className="text-gray-400">No date</span>;
+          if (!date) return <span className="text-gray-400 dark:text-gray-500">No date</span>;
           const dueDate = new Date(date);
           const today = new Date();
           today.setHours(0, 0, 0, 0);
           const isOverdue = dueDate < today && info.row.original.status !== 'Completed';
           return (
-            <span className={isOverdue ? 'text-red-600 font-medium' : ''}>
+            <span className={isOverdue ? 'text-red-600 dark:text-red-400 font-medium' : 'text-gray-900 dark:text-white'}>
               {dueDate.toLocaleDateString()}
             </span>
           );
@@ -314,10 +314,10 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
         cell: (info) => {
           const priority = info.getValue();
           const colors = {
-            Urgent: 'bg-red-100 text-red-800',
-            High: 'bg-orange-100 text-orange-800',
-            Medium: 'bg-yellow-100 text-yellow-800',
-            Low: 'bg-gray-100 text-gray-800'
+            Urgent: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300',
+            High: 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300',
+            Medium: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300',
+            Low: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
           };
           return (
             <span className={`px-2 py-1 text-xs font-medium rounded ${colors[priority] || colors.Medium}`}>
@@ -342,17 +342,17 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
                 <button className="p-1 hover:bg-gray-100 rounded">
                   <FiMoreVertical className="h-4 w-4" />
                 </button>
-                <div className="absolute right-0 mt-1 w-40 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+                <div className="absolute right-0 mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                   <button
                     onClick={() => handleTaskClick(info.row.original)}
-                    className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 flex items-center gap-2"
+                    className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2 text-gray-700 dark:text-gray-300"
                   >
                     <FiEdit2 className="h-4 w-4" />
                     Edit
                   </button>
                   <button
                     onClick={() => handleTaskDelete(info.row.original._id)}
-                    className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 text-red-600 flex items-center gap-2"
+                    className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 text-red-600 dark:text-red-400 flex items-center gap-2"
                   >
                     <FiTrash2 className="h-4 w-4" />
                     Delete
@@ -415,13 +415,13 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
               className="input w-64"
             />
             {showBulkActions && (
-              <div className="flex items-center gap-2 bg-primary-50 border border-primary-200 rounded-lg px-3 py-2">
-                <span className="text-sm font-medium text-primary-700">
+              <div className="flex items-center gap-2 bg-primary-50 dark:bg-primary-900/30 border border-primary-200 dark:border-primary-800 rounded-lg px-3 py-2">
+                <span className="text-sm font-medium text-primary-700 dark:text-primary-300">
                   {selectedRows.size} selected
                 </span>
                 <button
                   onClick={handleBulkDelete}
-                  className="text-sm text-red-600 hover:text-red-700 font-medium"
+                  className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium"
                 >
                   Delete
                 </button>
@@ -430,9 +430,9 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
                     setSelectedRows(new Set());
                     setShowBulkActions(false);
                   }}
-                  className="p-1 hover:bg-primary-100 rounded"
+                  className="p-1 hover:bg-primary-100 dark:hover:bg-primary-800 rounded"
                 >
-                  <FiX className="h-4 w-4 text-primary-600" />
+                  <FiX className="h-4 w-4 text-primary-600 dark:text-primary-400" />
                 </button>
               </div>
             )}
@@ -450,13 +450,13 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
 
         <div className="overflow-x-auto" style={{ overflowY: 'hidden', maxHeight: 'none', height: 'auto' }}>
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map(header => (
                     <th
                       key={header.id}
-                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
                     >
                       {header.isPlaceholder ? null : (
                         <div
@@ -475,9 +475,9 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
                 </tr>
               ))}
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
               {table.getRowModel().rows.map(row => (
-                <tr key={row.id} className="hover:bg-gray-50">
+                <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                   {row.getVisibleCells().map(cell => (
                     <td key={cell.id} className="px-4 py-3 whitespace-nowrap">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -488,16 +488,16 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
             </tbody>
           </table>
           {table.getRowModel().rows.length === 0 && (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 text-gray-500 dark:text-gray-400">
               No tasks found
             </div>
           )}
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
+        <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-700">
+            <span className="text-sm text-gray-700 dark:text-gray-300">
               Showing {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{' '}
               {Math.min(
                 (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
@@ -515,7 +515,7 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
               <FiChevronLeft className="h-4 w-4" />
               Previous
             </button>
-            <span className="text-sm text-gray-700">
+            <span className="text-sm text-gray-700 dark:text-gray-300">
               Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
             </span>
             <button
@@ -532,16 +532,16 @@ const ListTab = ({ projectId, teamId, type = 'project' }) => {
 
       {/* Create Task Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+        <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-75 z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">Create New Task</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Create New Task</h3>
               <button
                 onClick={() => {
                   setShowCreateModal(false);
                   setNewTaskData({ title: '', description: '', priority: 'Medium', dueDate: '' });
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
               >
                 <FiX className="h-5 w-5" />
               </button>

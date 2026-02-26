@@ -13,6 +13,7 @@ const UserManagement = () => {
   const [inviteData, setInviteData] = useState({ email: '', role: 'Staff' });
   const [sendingInvite, setSendingInvite] = useState(false);
   const [deletingUserId, setDeletingUserId] = useState(null);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   useEffect(() => {
     // Only fetch data if user is Company Owner
@@ -63,14 +64,11 @@ const UserManagement = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    if (!window.confirm('Are you sure you want to remove this user from the organization? This action cannot be undone.')) {
-      return;
-    }
-
     setDeletingUserId(userId);
     try {
       await api.delete(`/auth/user/${userId}`);
       toast.success('User removed from organization successfully');
+      setUserToDelete(null);
       fetchUsers();
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to delete user');
@@ -94,8 +92,8 @@ const UserManagement = () => {
     return (
       <div className="flex flex-col items-center justify-center py-12 px-4">
         <FiLock className="h-16 w-16 text-gray-400 mb-4" />
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Access Restricted</h3>
-        <p className="text-sm text-gray-600 text-center max-w-md">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Access Restricted</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 text-center max-w-md">
           Only Company Owners can access team management. Please contact your Company Owner for assistance.
         </p>
       </div>
@@ -103,15 +101,15 @@ const UserManagement = () => {
   }
 
   if (loading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading...</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">Team Members</h2>
-          <p className="text-sm text-gray-600">Manage your team and invite new members</p>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Team Members</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Manage your team and invite new members</p>
         </div>
         <button
           onClick={() => setShowInviteModal(true)}
@@ -122,29 +120,29 @@ const UserManagement = () => {
         </button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead className="bg-gray-50 dark:bg-gray-700/50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Name</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Email</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Role</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {users.map((user) => (
               <tr key={user._id}>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-white">
                   {user.firstName} {user.lastName}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{user.email}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">{user.email}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="badge bg-blue-100 text-blue-800">{user.role}</span>
+                  <span className="badge bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300">{user.role}</span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`badge ${user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  <span className={`badge ${user.isActive ? 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300'}`}>
                     {user.isActive ? 'Active' : 'Inactive'}
                   </span>
                 </td>
@@ -152,13 +150,13 @@ const UserManagement = () => {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleToggleActive(user._id, user.isActive)}
-                      className="text-gray-600 hover:text-gray-900"
+                      className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                       title={user.isActive ? 'Deactivate' : 'Activate'}
                     >
                       {user.isActive ? <FiUserX className="h-5 w-5" /> : <FiUserCheck className="h-5 w-5" />}
                     </button>
                     <button
-                      onClick={() => handleDeleteUser(user._id)}
+                      onClick={() => setUserToDelete(user)}
                       disabled={deletingUserId === user._id}
                       className="text-red-600 hover:text-red-900 disabled:opacity-50"
                       title="Remove from organization"
@@ -177,14 +175,59 @@ const UserManagement = () => {
         </table>
       </div>
 
+      {/* Delete confirmation modal */}
+      {userToDelete && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center">
+                <FiTrash2 className="h-6 w-6 text-red-600 dark:text-red-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Remove team member</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">This action cannot be undone.</p>
+              </div>
+            </div>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Are you sure you want to remove <strong>{userToDelete.firstName} {userToDelete.lastName}</strong> ({userToDelete.email}) from the organization? They will lose access to this organization.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setUserToDelete(null)}
+                disabled={deletingUserId === userToDelete._id}
+                className="btn btn-secondary"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDeleteUser(userToDelete._id)}
+                disabled={deletingUserId === userToDelete._id}
+                className="btn bg-red-600 hover:bg-red-700 text-white disabled:opacity-50 flex items-center gap-2"
+              >
+                {deletingUserId === userToDelete._id ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                    Removing...
+                  </>
+                ) : (
+                  'Remove from organization'
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Invite Modal */}
       {showInviteModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Invite Team Member</h3>
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Invite Team Member</h3>
             <form onSubmit={handleInvite} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email *</label>
                 <input
                   type="email"
                   required
@@ -194,7 +237,7 @@ const UserManagement = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Role *</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Role *</label>
                 <select
                   required
                   className="input"

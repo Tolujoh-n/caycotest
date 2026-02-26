@@ -184,18 +184,18 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
     });
   };
 
-  if (loading) return <div className="text-center py-8">Loading messages...</div>;
+  if (loading) return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading messages...</div>;
 
   return (
     <>
       {unreadCount > 0 && (
-        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
-          <span className="text-sm text-blue-800">
+        <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg flex items-center justify-between">
+          <span className="text-sm text-blue-800 dark:text-blue-300">
             {unreadCount} unread message{unreadCount > 1 ? 's' : ''}
           </span>
         </div>
       )}
-      <div className="flex flex-col h-[600px] bg-gray-50 rounded-lg">
+      <div className="flex flex-col h-[600px] bg-gray-50 dark:bg-gray-800 rounded-lg">
         {/* Messages Area */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {messages.map(message => {
@@ -223,10 +223,10 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
                 {/* Message Content */}
                 <div className={`flex-1 max-w-[70%] ${isOwnMessage ? 'text-right' : ''}`}>
                   <div className={`flex items-center gap-2 mb-1 ${isOwnMessage ? 'justify-end' : ''}`}>
-                    <span className="font-medium text-sm text-gray-900">
+                    <span className="font-medium text-sm text-gray-900 dark:text-white">
                       {message.sender?.firstName} {message.sender?.lastName}
                     </span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
                       {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
@@ -235,7 +235,7 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
                     className={`inline-block p-3 rounded-2xl ${
                       isOwnMessage
                         ? 'bg-primary-600 text-white rounded-br-sm'
-                        : 'bg-white text-gray-900 rounded-bl-sm shadow-sm'
+                        : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-bl-sm shadow-sm'
                     }`}
                   >
                     {message.content && (
@@ -268,10 +268,10 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
                                 </div>
                               ) : (
                                 <div className={`flex items-center gap-2 p-2 rounded-lg ${
-                                  isOwnMessage ? 'bg-primary-500' : 'bg-gray-100'
+                                  isOwnMessage ? 'bg-primary-500' : 'bg-gray-100 dark:bg-gray-600'
                                 }`}>
-                                  <FiFile className={`h-4 w-4 ${isOwnMessage ? 'text-white' : 'text-gray-600'}`} />
-                                  <span className={`text-xs truncate ${isOwnMessage ? 'text-white' : 'text-gray-700'}`}>
+                                  <FiFile className={`h-4 w-4 ${isOwnMessage ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`} />
+                                  <span className={`text-xs truncate ${isOwnMessage ? 'text-white' : 'text-gray-700 dark:text-gray-200'}`}>
                                     {attachment.originalName}
                                   </span>
                                   <button
@@ -315,7 +315,7 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
         </div>
 
         {/* Input Area */}
-        <div className="p-4 bg-white border-t border-gray-200">
+        <div className="p-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
           {/* Selected Files Preview */}
           {selectedFiles.length > 0 && (
             <div className="mb-3 flex flex-wrap gap-2">
@@ -339,9 +339,9 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
                         </button>
                       </div>
                     ) : (
-                      <div className="relative flex items-center gap-2 p-2 bg-gray-100 rounded">
-                        <FiFile className="h-4 w-4 text-gray-600" />
-                        <span className="text-xs text-gray-700 max-w-[100px] truncate">{file.name}</span>
+                      <div className="relative flex items-center gap-2 p-2 bg-gray-100 dark:bg-gray-700 rounded">
+                        <FiFile className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+                        <span className="text-xs text-gray-700 dark:text-gray-300 max-w-[100px] truncate">{file.name}</span>
                         <button
                           onClick={() => removeFile(index)}
                           className="p-1 text-red-600 hover:text-red-700"
@@ -359,7 +359,7 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
           <div className="flex items-end gap-2">
             <div className="flex-1">
               <textarea
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 rows="2"
                 placeholder="Type a message..."
                 value={newMessage}
@@ -368,8 +368,8 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
               />
             </div>
             <div className="flex gap-2">
-              <label className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer" title="Attach file">
-                <FiPaperclip className="h-5 w-5 text-gray-600" />
+              <label className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer text-gray-600 dark:text-gray-400" title="Attach file">
+                <FiPaperclip className="h-5 w-5" />
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -402,7 +402,7 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
             <div className="relative max-w-4xl w-full">
               <button
                 onClick={() => setImageModal({ isOpen: false, url: '', name: '' })}
-                className="absolute top-4 right-4 z-10 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100"
+                className="absolute top-4 right-4 z-10 p-2 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
               >
                 <FiX className="h-5 w-5" />
               </button>
@@ -412,7 +412,7 @@ const MessagesTab = ({ projectId, teamId, type = 'project' }) => {
                 className="w-full h-auto rounded-lg shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
               />
-              <div className="mt-2 text-center text-sm text-gray-600">{imageModal.name}</div>
+              <div className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">{imageModal.name}</div>
             </div>
           </div>
         </div>

@@ -97,8 +97,8 @@ const ProfileSettings = () => {
       {/* Profile Information */}
       <form onSubmit={handleProfileUpdate} className="space-y-6">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900 mb-1">Profile Information</h2>
-          <p className="text-sm text-gray-600">Update your personal information</p>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Profile Information</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Update your personal information</p>
         </div>
 
         {/* Avatar Upload */}
@@ -107,13 +107,13 @@ const ProfileSettings = () => {
             {formData.avatar ? (
               <img src={formData.avatar} alt="Avatar" className="h-20 w-20 rounded-full object-cover" />
             ) : (
-              <div className="h-20 w-20 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-semibold text-xl">
+              <div className="h-20 w-20 rounded-full bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center text-primary-700 dark:text-primary-400 font-semibold text-xl">
                 {formData.firstName?.[0] || user?.firstName?.[0] || ''}{formData.lastName?.[0] || user?.lastName?.[0] || ''}
               </div>
             )}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Profile Picture</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Profile Picture</label>
             <label className="btn btn-sm btn-secondary cursor-pointer">
               {uploadingAvatar ? 'Uploading...' : 'Upload Avatar'}
               <input
@@ -124,13 +124,13 @@ const ProfileSettings = () => {
                 className="hidden"
               />
             </label>
-            <p className="text-xs text-gray-500 mt-1">JPG, PNG or GIF. Max size 5MB.</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">JPG, PNG or GIF. Max size 5MB.</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">First Name *</label>
             <input
               type="text"
               required
@@ -140,7 +140,7 @@ const ProfileSettings = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Last Name *</label>
             <input
               type="text"
               required
@@ -150,17 +150,17 @@ const ProfileSettings = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
             <input
               type="email"
-              className="input bg-gray-50"
+              className="input bg-gray-50 dark:bg-gray-700/50"
               value={user?.email || ''}
               disabled
             />
-            <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Email cannot be changed</p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
             <input
               type="tel"
               className="input"
@@ -170,10 +170,10 @@ const ProfileSettings = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-1">Email Notifications</label>
-            <p className="text-xs text-gray-600">Receive email notifications for important updates</p>
+            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-1">Email Notifications</label>
+            <p className="text-xs text-gray-600 dark:text-gray-400">Receive email notifications for important updates</p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
@@ -194,15 +194,15 @@ const ProfileSettings = () => {
       </form>
 
       {/* Change Password */}
-      <form onSubmit={handlePasswordChange} className="space-y-6 border-t pt-6">
+      <form onSubmit={handlePasswordChange} className="space-y-6 border-t border-gray-200 dark:border-gray-700 pt-6">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900 mb-1">Change Password</h2>
-          <p className="text-sm text-gray-600">Update your password to keep your account secure</p>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Change Password</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Update your password to keep your account secure</p>
         </div>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Current Password *</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Current Password *</label>
             <input
               type="password"
               required
@@ -212,7 +212,7 @@ const ProfileSettings = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">New Password *</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">New Password *</label>
             <input
               type="password"
               required
@@ -223,7 +223,7 @@ const ProfileSettings = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password *</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm New Password *</label>
             <input
               type="password"
               required

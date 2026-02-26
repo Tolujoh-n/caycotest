@@ -21,15 +21,15 @@ const SortableTaskCard = ({ task, stageId, onMoveForward, onMoveBackward, canMov
       style={style} 
       {...attributes} 
       {...listeners}
-      className="bg-white border border-gray-200 rounded-lg p-3 cursor-grab active:cursor-grabbing"
+      className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-3 cursor-grab active:cursor-grabbing"
     >
       <div className="flex items-start justify-between mb-2">
-        <h5 className="font-medium text-sm flex-1">{task.title}</h5>
+        <h5 className="font-medium text-sm flex-1 text-gray-900 dark:text-white">{task.title}</h5>
         <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
           {canMoveBackward && (
             <button
               onClick={() => onMoveBackward(task._id)}
-              className="p-1 hover:bg-gray-100 rounded text-gray-600"
+              className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-gray-600 dark:text-gray-400"
               title="Move to previous stage"
             >
               <FiArrowLeft className="h-4 w-4" />
@@ -38,7 +38,7 @@ const SortableTaskCard = ({ task, stageId, onMoveForward, onMoveBackward, canMov
           {canMoveForward && (
             <button
               onClick={() => onMoveForward(task._id)}
-              className="p-1 hover:bg-gray-100 rounded text-gray-600"
+              className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-gray-600 dark:text-gray-400"
               title="Move to next stage"
             >
               <FiArrowRight className="h-4 w-4" />
@@ -46,11 +46,11 @@ const SortableTaskCard = ({ task, stageId, onMoveForward, onMoveBackward, canMov
           )}
         </div>
       </div>
-      <div className="flex items-center gap-2 text-xs text-gray-500">
+      <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
         <span className={`px-2 py-0.5 rounded ${
-          task.priority === 'Urgent' ? 'bg-red-100 text-red-800' :
-          task.priority === 'High' ? 'bg-orange-100 text-orange-800' :
-          'bg-gray-100 text-gray-800'
+          task.priority === 'Urgent' ? 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300' :
+          task.priority === 'High' ? 'bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-300' :
+          'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
         }`}>
           {task.priority}
         </span>
@@ -70,13 +70,13 @@ const DroppableStage = ({ stage, tasks, onMoveForward, onMoveBackward, workflowS
   const nextStage = canMoveForward ? workflowStages[stageIndex + 1] : null;
 
   return (
-    <div ref={setNodeRef} className="border border-gray-200 rounded-lg p-4 bg-gray-50 min-h-[200px]">
+    <div ref={setNodeRef} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-800 min-h-[200px]">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className={`h-3 w-3 rounded-full ${stage.color}`} />
-          <h4 className="font-semibold">{stage.name}</h4>
+          <h4 className="font-semibold text-gray-900 dark:text-white">{stage.name}</h4>
         </div>
-        <span className="text-sm text-gray-500">({tasks.length})</span>
+        <span className="text-sm text-gray-500 dark:text-gray-400">({tasks.length})</span>
       </div>
       
       <SortableContext items={tasks.map(t => t._id)} strategy={verticalListSortingStrategy}>
@@ -93,7 +93,7 @@ const DroppableStage = ({ stage, tasks, onMoveForward, onMoveBackward, workflowS
             />
           ))}
           {tasks.length === 0 && (
-            <div className="text-center py-8 text-gray-400 text-sm">
+            <div className="text-center py-8 text-gray-400 dark:text-gray-500 text-sm">
               No tasks
             </div>
           )}
@@ -182,13 +182,13 @@ const WorkflowTab = ({ projectId, teamId, type = 'project' }) => {
     }
   };
 
-  if (loading) return <div className="text-center py-8">Loading workflow...</div>;
+  if (loading) return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading workflow...</div>;
 
   return (
     <div className="card">
       <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-2">Workflow Stages</h3>
-        <p className="text-sm text-gray-600">Drag tasks between stages or click arrows to move them</p>
+        <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Workflow Stages</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400">Drag tasks between stages or click arrows to move them</p>
       </div>
 
       <DndContext
@@ -216,7 +216,7 @@ const WorkflowTab = ({ projectId, teamId, type = 'project' }) => {
         </div>
         <DragOverlay>
           {activeId ? (
-            <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-lg">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-3 shadow-lg text-gray-900 dark:text-white">
               {tasks.find(t => t._id === activeId)?.title}
             </div>
           ) : null}

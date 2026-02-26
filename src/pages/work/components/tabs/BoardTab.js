@@ -37,7 +37,7 @@ const TaskCard = ({ task, onClick }) => {
       {...attributes}
       {...listeners}
       onClick={() => onClick(task)}
-      className={`bg-white border-l-4 ${priorityColors[task.priority] || priorityColors.Medium} border border-gray-200 rounded-lg p-3 cursor-pointer hover:shadow-md transition-shadow`}
+      className={`bg-white dark:bg-gray-800 border-l-4 ${priorityColors[task.priority] || priorityColors.Medium} border border-gray-200 dark:border-gray-600 rounded-lg p-3 cursor-pointer hover:shadow-md transition-shadow`}
     >
       {latestImage && (
         <div className="mb-2 rounded overflow-hidden">
@@ -51,29 +51,29 @@ const TaskCard = ({ task, onClick }) => {
           />
         </div>
       )}
-      <h4 className="font-medium text-gray-900 mb-2">{task.title}</h4>
+      <h4 className="font-medium text-gray-900 dark:text-white mb-2">{task.title}</h4>
       {task.description && (
-        <p className="text-sm text-gray-600 mb-2 line-clamp-2">{task.description}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">{task.description}</p>
       )}
       <div className="flex items-center justify-between mt-3">
         <div className="flex -space-x-2">
           {task.assignedTo?.slice(0, 3).map((assignee, idx) => (
             <div
               key={assignee._id || idx}
-              className="h-6 w-6 rounded-full bg-primary-100 flex items-center justify-center text-xs font-medium text-primary-700 border-2 border-white"
+              className="h-6 w-6 rounded-full bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center text-xs font-medium text-primary-700 dark:text-primary-400 border-2 border-white dark:border-gray-800"
               title={`${assignee.firstName} ${assignee.lastName}`}
             >
               {assignee.firstName?.[0]}{assignee.lastName?.[0]}
             </div>
           ))}
           {task.assignedTo?.length > 3 && (
-            <div className="h-6 w-6 rounded-full bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-600 border-2 border-white">
+            <div className="h-6 w-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-xs font-medium text-gray-600 dark:text-gray-300 border-2 border-white dark:border-gray-800">
               +{task.assignedTo.length - 3}
             </div>
           )}
         </div>
         {task.dueDate && (
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-gray-500 dark:text-gray-400">
             {new Date(task.dueDate).toLocaleDateString()}
           </span>
         )}
@@ -89,24 +89,24 @@ const DroppableColumn = ({ column, tasks, onTaskClick, onAddTask, onRename, onDe
 
   return (
     <div ref={setNodeRef} className="flex-shrink-0 w-72" style={{ height: 'calc(100vh - 200px)', maxHeight: 'calc(100vh - 200px)' }}>
-      <div className={`bg-gray-50 rounded-lg p-4 h-full flex flex-col ${isOver ? 'ring-2 ring-primary-500' : ''}`}>
+      <div className={`bg-gray-50 dark:bg-gray-800 rounded-lg p-4 h-full flex flex-col ${isOver ? 'ring-2 ring-primary-500' : ''}`}>
         <div className="flex items-center justify-between mb-4 flex-shrink-0">
-          <h3 className="font-semibold text-gray-900">
+          <h3 className="font-semibold text-gray-900 dark:text-white">
             {column.name || column.title} ({tasks.length})
           </h3>
           <div className="flex items-center gap-1">
             <button
               onClick={() => onAddTask(column._id || column.id)}
-              className="p-1 hover:bg-gray-200 rounded"
+              className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-gray-700 dark:text-gray-300"
               title="Add task"
             >
               <FiPlus className="h-4 w-4" />
             </button>
             <div className="relative group">
-              <button className="p-1 hover:bg-gray-200 rounded">
+              <button className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-gray-700 dark:text-gray-300">
                 <FiMoreVertical className="h-4 w-4" />
               </button>
-              <div className="absolute right-0 mt-1 w-40 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+              <div className="absolute right-0 mt-1 w-40 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                 <button
                   onClick={() => {
                     const newName = window.prompt('Enter new section name:', column.name || column.title);
@@ -114,14 +114,14 @@ const DroppableColumn = ({ column, tasks, onTaskClick, onAddTask, onRename, onDe
                       onRename(column._id || column.id, newName.trim());
                     }
                   }}
-                  className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 flex items-center gap-2"
+                  className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-600 flex items-center gap-2 text-gray-900 dark:text-white"
                 >
                   <FiEdit2 className="h-4 w-4" />
                   Rename
                 </button>
                 <button
                   onClick={() => onDelete(column._id || column.id)}
-                  className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 text-red-600 flex items-center gap-2"
+                  className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-600 text-red-600 dark:text-red-400 flex items-center gap-2"
                 >
                   <FiTrash2 className="h-4 w-4" />
                   Delete
@@ -136,7 +136,7 @@ const DroppableColumn = ({ column, tasks, onTaskClick, onAddTask, onRename, onDe
               <TaskCard key={task._id} task={task} onClick={onTaskClick} />
             ))}
             {tasks.length === 0 && (
-              <div className="text-center py-8 text-gray-400 text-sm">
+              <div className="text-center py-8 text-gray-400 dark:text-gray-500 text-sm">
                 No tasks
               </div>
             )}
@@ -382,7 +382,7 @@ const BoardTab = ({ projectId, teamId, type = 'project' }) => {
     }));
   }, [sections, tasks]);
 
-  if (loading) return <div className="text-center py-8">Loading board...</div>;
+  if (loading) return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading board...</div>;
 
   return (
     <div className="relative w-full h-full flex flex-col" style={{ overflow: 'hidden', maxWidth: '100%' }}>
@@ -400,6 +400,15 @@ const BoardTab = ({ projectId, teamId, type = 'project' }) => {
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
           background: #94a3b8;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-track {
+          background: #374151;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #4b5563;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #6b7280;
         }
         .board-header {
           width: 100%;
@@ -432,6 +441,15 @@ const BoardTab = ({ projectId, teamId, type = 'project' }) => {
         .board-wrapper::-webkit-scrollbar-thumb:hover {
           background: #94a3b8;
         }
+        .dark .board-wrapper::-webkit-scrollbar-track {
+          background: #374151;
+        }
+        .dark .board-wrapper::-webkit-scrollbar-thumb {
+          background: #4b5563;
+        }
+        .dark .board-wrapper::-webkit-scrollbar-thumb:hover {
+          background: #6b7280;
+        }
         .board-columns {
           display: inline-flex;
           flex-direction: row;
@@ -444,7 +462,7 @@ const BoardTab = ({ projectId, teamId, type = 'project' }) => {
       `}</style>
 
       <div className="board-header flex items-center justify-between">
-        <h2 className="text-lg font-semibold flex-shrink-0">Board</h2>
+        <h2 className="text-lg font-semibold flex-shrink-0 text-gray-900 dark:text-white">Board</h2>
         <button
           onClick={() => setShowNewColumnModal(true)}
           className="btn btn-sm btn-primary flex items-center gap-2 flex-shrink-0"
@@ -456,15 +474,15 @@ const BoardTab = ({ projectId, teamId, type = 'project' }) => {
 
       {showNewColumnModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">New Section</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">New Section</h3>
               <button
                 onClick={() => {
                   setShowNewColumnModal(false);
                   setNewColumnName('');
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
               >
                 <FiX className="h-5 w-5" />
               </button>
@@ -500,16 +518,16 @@ const BoardTab = ({ projectId, teamId, type = 'project' }) => {
 
       {showTaskModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">New Task</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">New Task</h3>
               <button
                 onClick={() => {
                   setShowTaskModal(false);
                   setNewTaskData({ title: '', description: '', priority: 'Medium', dueDate: '' });
                   setNewTaskSectionId('');
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
               >
                 <FiX className="h-5 w-5" />
               </button>
@@ -595,7 +613,7 @@ const BoardTab = ({ projectId, teamId, type = 'project' }) => {
         </div>
         <DragOverlay>
           {activeId ? (
-            <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-lg w-64">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-3 shadow-lg w-64 text-gray-900 dark:text-white">
               {tasks.find(t => t._id === activeId)?.title}
             </div>
           ) : null}

@@ -140,29 +140,29 @@ const WorkProjects = () => {
   const selectedProject = projects.find(p => p._id === selectedProjectId);
 
   if (loading) {
-    return <div className="text-center py-8">Loading projects...</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading projects...</div>;
   }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
       {/* Project picker side nav */}
       <div className={`lg:col-span-1 transition-all duration-300 ${sidebarOpen ? '' : 'hidden lg:block'}`}>
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-1.5 rounded-lg hover:bg-gray-50 text-gray-700"
+                className="p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                 title={sidebarOpen ? 'Hide projects' : 'Show projects'}
               >
                 {sidebarOpen ? <FiChevronLeft className="h-4 w-4" /> : <FiChevronRight className="h-4 w-4" />}
               </button>
-              <div className="text-sm font-semibold text-gray-900">Projects</div>
+              <div className="text-sm font-semibold text-gray-900 dark:text-white">Projects</div>
             </div>
             {canManage && (
               <button
                 onClick={handleCreateProject}
-                className="p-2 rounded-lg hover:bg-gray-50 text-gray-700"
+                className="p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                 title="Create project"
               >
                 <FiPlus className="h-4 w-4" />
@@ -172,14 +172,14 @@ const WorkProjects = () => {
           {sidebarOpen && (
             <div className="p-2 space-y-1 max-h-[600px] overflow-y-auto">
               {projects.length === 0 ? (
-                <div className="text-sm text-gray-500 p-4 text-center">No projects yet</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400 p-4 text-center">No projects yet</div>
               ) : (
                 projects.map(p => (
                   <div key={p._id} className="relative group">
                     <button
                       onClick={() => setSelectedProjectId(p._id)}
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                        selectedProjectId === p._id ? 'bg-primary-50 text-primary-700' : 'hover:bg-gray-50 text-gray-800'
+                        selectedProjectId === p._id ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400' : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200'
                       }`}
                     >
                       <span className="h-3 w-3 rounded-sm flex-shrink-0" style={{ backgroundColor: p.color }} />
@@ -188,7 +188,7 @@ const WorkProjects = () => {
                     {canManage && (
                       <button
                         onClick={() => handleEditProject(p)}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded text-gray-600"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-gray-600 dark:text-gray-400"
                       >
                         <FiPlus className="h-3 w-3 rotate-45" />
                       </button>
@@ -208,9 +208,9 @@ const WorkProjects = () => {
             <div className="flex items-center gap-3">
               <div className="h-4 w-4 rounded" style={{ backgroundColor: selectedProject.color }} />
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">{selectedProject.name}</h2>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{selectedProject.name}</h2>
                 {selectedProject.description && (
-                  <p className="text-sm text-gray-600">{selectedProject.description}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{selectedProject.description}</p>
                 )}
               </div>
             </div>
@@ -231,7 +231,7 @@ const WorkProjects = () => {
           </>
         ) : (
           <div className="card text-center py-12">
-            <p className="text-gray-500">Select a project to view details</p>
+            <p className="text-gray-500 dark:text-gray-400">Select a project to view details</p>
           </div>
         )}
       </div>

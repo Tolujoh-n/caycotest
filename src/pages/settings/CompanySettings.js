@@ -125,29 +125,29 @@ const CompanySettings = () => {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return <div className="text-center py-8 text-gray-500 dark:text-gray-400">Loading...</div>;
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">Company Information</h2>
-        <p className="text-sm text-gray-600">Update your company details</p>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Company Information</h2>
+        <p className="text-sm text-gray-600 dark:text-gray-400">Update your company details</p>
       </div>
 
       {/* Logo Upload */}
-      <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+      <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
         <div className="relative">
           {logo ? (
             <img src={logo} alt="Company Logo" className="h-20 w-20 object-contain rounded" />
           ) : (
-            <div className="h-20 w-20 rounded bg-gray-200 flex items-center justify-center text-gray-400 text-sm">
+            <div className="h-20 w-20 rounded bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">
               No Logo
             </div>
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Company Logo</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Company Logo</label>
           <label className="btn btn-sm btn-secondary cursor-pointer">
             {uploadingLogo ? 'Uploading...' : 'Upload Logo'}
             <input
@@ -158,21 +158,21 @@ const CompanySettings = () => {
               className="hidden"
             />
           </label>
-          <p className="text-xs text-gray-500 mt-1">JPG, PNG or GIF. Max size 5MB.</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">JPG, PNG or GIF. Max size 5MB.</p>
         </div>
       </div>
 
       {/* Organization ID - Read Only (All Members) */}
       {organizationId && (
-        <div className="p-4 bg-primary-50 border border-primary-200 rounded-lg">
-          <label className="block text-sm font-medium text-primary-900 mb-2">
+        <div className="p-4 bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-lg">
+          <label className="block text-sm font-medium text-primary-900 dark:text-primary-200 mb-2">
             Organization ID
           </label>
           <div className="flex items-center gap-2">
             <input
               type="text"
               readOnly
-              className="input bg-white font-mono text-primary-700 font-semibold cursor-default"
+              className="input bg-white dark:bg-gray-700 font-mono text-primary-700 dark:text-primary-300 font-semibold cursor-default"
               value={organizationId}
               style={{ textTransform: 'uppercase' }}
             />
@@ -186,7 +186,7 @@ const CompanySettings = () => {
               Copy
             </button>
           </div>
-          <p className="text-xs text-primary-600 mt-2">
+          <p className="text-xs text-primary-600 dark:text-primary-400 mt-2">
             This is your organization's unique ID. Use this along with your email and password to log in.
           </p>
         </div>
@@ -194,7 +194,7 @@ const CompanySettings = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Company Name *</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Company Name *</label>
           <input
             type="text"
             required
@@ -204,7 +204,7 @@ const CompanySettings = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Industry</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Industry</label>
           <input
             type="text"
             className="input"
@@ -213,7 +213,7 @@ const CompanySettings = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
           <input
             type="email"
             className="input"
@@ -222,7 +222,7 @@ const CompanySettings = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
           <input
             type="tel"
             className="input"
@@ -231,7 +231,7 @@ const CompanySettings = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Website</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Website</label>
           <input
             type="url"
             className="input"
@@ -241,7 +241,7 @@ const CompanySettings = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Tax ID</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tax ID</label>
           <input
             type="text"
             className="input"
@@ -252,7 +252,7 @@ const CompanySettings = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address</label>
         <input
           type="text"
           className="input mb-2"
@@ -285,11 +285,11 @@ const CompanySettings = () => {
         </div>
       </div>
 
-      <div className="border-t pt-6">
-        <h3 className="text-md font-semibold text-gray-900 mb-4">Preferences</h3>
+      <div className="border-t dark:border-gray-700 pt-6">
+        <h3 className="text-md font-semibold text-gray-900 dark:text-white mb-4">Preferences</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Currency</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Currency</label>
             <select
               className="input"
               value={formData.settings.currency}
@@ -302,7 +302,7 @@ const CompanySettings = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Timezone</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Timezone</label>
             <select
               className="input"
               value={formData.settings.timezone}

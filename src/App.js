@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -40,11 +41,12 @@ import Inbox from './pages/inbox/Inbox';
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <SocketProvider>
-          <Toaster position="top-right" />
-          <Routes>
+    <ThemeProvider>
+      <Router>
+        <AuthProvider>
+          <SocketProvider>
+            <Toaster position="top-right" />
+            <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -272,10 +274,11 @@ function App() {
             />
             
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
-        </SocketProvider>
-      </AuthProvider>
-    </Router>
+            </Routes>
+          </SocketProvider>
+        </AuthProvider>
+      </Router>
+    </ThemeProvider>
   );
 }
 

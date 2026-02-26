@@ -82,19 +82,19 @@ const TeamModal = ({ isOpen, onClose, team, onSuccess }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             {team ? 'Edit Team' : 'Create New Team'}
           </h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-700 dark:text-gray-300">
             <FiX className="h-5 w-5" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Team Name *
             </label>
             <input
@@ -108,7 +108,7 @@ const TeamModal = ({ isOpen, onClose, team, onSuccess }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Description
             </label>
             <textarea
@@ -121,7 +121,7 @@ const TeamModal = ({ isOpen, onClose, team, onSuccess }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Color
             </label>
             <div className="flex gap-2 flex-wrap">
@@ -131,7 +131,7 @@ const TeamModal = ({ isOpen, onClose, team, onSuccess }) => {
                   type="button"
                   onClick={() => setFormData({ ...formData, color })}
                   className={`h-10 w-10 rounded-lg border-2 ${
-                    formData.color === color ? 'border-gray-900' : 'border-gray-300'
+                    formData.color === color ? 'border-gray-900 dark:border-gray-100' : 'border-gray-300 dark:border-gray-600'
                   }`}
                   style={{ backgroundColor: color }}
                 />
@@ -146,34 +146,34 @@ const TeamModal = ({ isOpen, onClose, team, onSuccess }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Team Members
             </label>
-            <div className="border border-gray-200 rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
+            <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-3 max-h-48 overflow-y-auto space-y-2 bg-gray-50 dark:bg-gray-700/30">
               {availableUsers.map(user => (
                 <label
                   key={user._id}
-                  className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer"
+                  className="flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg cursor-pointer"
                 >
                   <input
                     type="checkbox"
                     checked={formData.members.includes(user._id)}
                     onChange={() => toggleMember(user._id)}
-                    className="h-4 w-4 rounded border-gray-300 text-primary-600"
+                    className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-primary-600"
                   />
-                  <div className="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-medium">
+                  <div className="h-8 w-8 rounded-full bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center text-primary-700 dark:text-primary-400 font-medium">
                     {user.firstName?.[0]}{user.lastName?.[0]}
                   </div>
                   <div>
-                    <div className="font-medium">{user.firstName} {user.lastName}</div>
-                    <div className="text-sm text-gray-500">{user.email}</div>
+                    <div className="font-medium text-gray-900 dark:text-white">{user.firstName} {user.lastName}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">{user.email}</div>
                   </div>
                 </label>
               ))}
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
             <button type="button" onClick={onClose} className="btn btn-secondary">
               Cancel
             </button>

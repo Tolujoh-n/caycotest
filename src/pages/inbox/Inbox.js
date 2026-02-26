@@ -37,8 +37,8 @@ const Inbox = () => {
     <div className="space-y-6">
       <div className="flex items-end justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Inbox</h1>
-          <p className="text-gray-600 mt-1">All notifications for your account.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Inbox</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">All notifications for your account.</p>
         </div>
         <div className="flex gap-2">
           <button className="btn btn-secondary flex items-center gap-2" onClick={fetchNotifications}>
@@ -55,23 +55,23 @@ const Inbox = () => {
       <div className="card">
         {loading ? (
           <div className="flex items-center justify-center py-16">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-600" />
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-600 dark:border-primary-500" />
           </div>
         ) : notifications.length === 0 ? (
-          <div className="text-center py-16 text-gray-500">No notifications yet.</div>
+          <div className="text-center py-16 text-gray-500 dark:text-gray-400">No notifications yet.</div>
         ) : (
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-gray-100 dark:divide-gray-700">
             {notifications.map(n => (
               <div key={n._id} className="py-4 flex items-start justify-between gap-4">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <div className={`h-2 w-2 rounded-full ${n.isRead ? 'bg-gray-300' : 'bg-primary-600'}`} />
-                    <p className="text-sm font-semibold text-gray-900 truncate">{n.title}</p>
-                    <span className="text-xs text-gray-500">{n.type}</span>
+                    <div className={`h-2 w-2 rounded-full ${n.isRead ? 'bg-gray-300 dark:bg-gray-600' : 'bg-primary-600 dark:bg-primary-500'}`} />
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{n.title}</p>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{n.type}</span>
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">{n.message}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{n.message}</p>
                 </div>
-                <div className="text-xs text-gray-500 whitespace-nowrap">
+                <div className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
                   {new Date(n.createdAt).toLocaleString()}
                 </div>
               </div>

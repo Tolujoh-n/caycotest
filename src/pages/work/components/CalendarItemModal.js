@@ -140,12 +140,12 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Create Calendar Item</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Create Calendar Item</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           >
             <FiX className="h-5 w-5" />
           </button>
@@ -154,7 +154,7 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {/* Item Type Selector */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Item Type *
             </label>
             <div className="grid grid-cols-3 gap-3">
@@ -166,8 +166,8 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
                 }}
                 className={`px-4 py-2 rounded-md border-2 transition-colors ${
                   itemType === 'Task'
-                    ? 'border-primary-600 bg-primary-50 text-primary-700'
-                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'border-primary-600 dark:border-primary-500 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400'
+                    : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
                 }`}
               >
                 Task
@@ -180,8 +180,8 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
                 }}
                 className={`px-4 py-2 rounded-md border-2 transition-colors ${
                   itemType === 'Event'
-                    ? 'border-green-600 bg-green-50 text-green-700'
-                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'border-green-600 dark:border-green-500 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                    : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
                 }`}
               >
                 Event
@@ -194,8 +194,8 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
                 }}
                 className={`px-4 py-2 rounded-md border-2 transition-colors ${
                   itemType === 'Appointment'
-                    ? 'border-orange-600 bg-orange-50 text-orange-700'
-                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'border-orange-600 dark:border-orange-500 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400'
+                    : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
                 }`}
               >
                 Appointment
@@ -204,7 +204,7 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Title *
             </label>
             <input
@@ -212,48 +212,36 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
               required
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="input w-full"
               placeholder={`Enter ${itemType.toLowerCase()} title`}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Description
             </label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="input w-full"
               placeholder="Add description..."
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 <FiCalendar className="inline mr-1" /> Start Date *
               </label>
-              <input
-                type="date"
-                required
-                value={formData.startDate}
-                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-              />
+              <input type="date" required value={formData.startDate} onChange={(e) => setFormData({ ...formData, startDate: e.target.value })} className="input w-full" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 <FiCalendar className="inline mr-1" /> End Date *
               </label>
-              <input
-                type="date"
-                required
-                value={formData.endDate}
-                onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-              />
+              <input type="date" required value={formData.endDate} onChange={(e) => setFormData({ ...formData, endDate: e.target.value })} className="input w-full" />
             </div>
           </div>
 
@@ -265,7 +253,7 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
               onChange={(e) => setFormData({ ...formData, allDay: e.target.checked })}
               className="mr-2"
             />
-            <label htmlFor="allDay" className="text-sm text-gray-700">
+            <label htmlFor="allDay" className="text-sm text-gray-700 dark:text-gray-300">
               All day
             </label>
           </div>
@@ -273,56 +261,32 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
           {!formData.allDay && (
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   <FiClock className="inline mr-1" /> Start Time *
                 </label>
-                <input
-                  type="time"
-                  required
-                  value={formData.startTime}
-                  onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                />
+                <input type="time" required value={formData.startTime} onChange={(e) => setFormData({ ...formData, startTime: e.target.value })} className="input w-full" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   <FiClock className="inline mr-1" /> End Time *
                 </label>
-                <input
-                  type="time"
-                  required
-                  value={formData.endTime}
-                  onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                />
+                <input type="time" required value={formData.endTime} onChange={(e) => setFormData({ ...formData, endTime: e.target.value })} className="input w-full" />
               </div>
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               <FiMapPin className="inline mr-1" /> Location
             </label>
-            <input
-              type="text"
-              value={formData.location}
-              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-              placeholder="Add location..."
-            />
+            <input type="text" value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} className="input w-full" placeholder="Add location..." />
           </div>
 
           {itemType === 'Task' && (
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Priority
-                </label>
-                <select
-                  value={formData.priority}
-                  onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                >
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
+                <select value={formData.priority} onChange={(e) => setFormData({ ...formData, priority: e.target.value })} className="input w-full">
                   <option value="Low">Low</option>
                   <option value="Medium">Medium</option>
                   <option value="High">High</option>
@@ -330,14 +294,8 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Status
-                </label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                >
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })} className="input w-full">
                   <option value="Not Started">Not Started</option>
                   <option value="In Progress">In Progress</option>
                   <option value="In Review">In Review</option>
@@ -349,14 +307,8 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
 
           {itemType === 'Appointment' && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Status
-              </label>
-              <select
-                value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-              >
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+              <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })} className="input w-full">
                 <option value="Scheduled">Scheduled</option>
                 <option value="Confirmed">Confirmed</option>
                 <option value="Cancelled">Cancelled</option>
@@ -366,7 +318,7 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               <FiTag className="inline mr-1" /> Color
             </label>
             <div className="flex flex-wrap gap-2">
@@ -375,9 +327,7 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
                   key={color.value}
                   type="button"
                   onClick={() => setFormData({ ...formData, color: color.value })}
-                  className={`w-8 h-8 rounded-full border-2 ${
-                    formData.color === color.value ? 'border-gray-900' : 'border-gray-300'
-                  }`}
+                  className={`w-8 h-8 rounded-full border-2 ${formData.color === color.value ? 'border-gray-900 dark:border-gray-100' : 'border-gray-300 dark:border-gray-500'}`}
                   style={{ backgroundColor: color.value }}
                   title={color.name}
                 />
@@ -386,51 +336,27 @@ const CalendarItemModal = ({ isOpen, onClose, selectedDate, itemType: initialIte
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               <FiUsers className="inline mr-1" /> {itemType === 'Task' ? 'Assign To' : 'Attendees'}
             </label>
-            <div className="max-h-32 overflow-y-auto border border-gray-300 rounded-md p-2">
+            <div className="max-h-32 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-gray-50 dark:bg-gray-700/30">
               {users.map((user) => (
-                <label key={user._id} className="flex items-center py-1">
-                  <input
-                    type="checkbox"
-                    checked={formData.attendees.includes(user._id)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setFormData({
-                          ...formData,
-                          attendees: [...formData.attendees, user._id]
-                        });
-                      } else {
-                        setFormData({
-                          ...formData,
-                          attendees: formData.attendees.filter(id => id !== user._id)
-                        });
-                      }
-                    }}
-                    className="mr-2"
-                  />
-                  <span className="text-sm text-gray-700">
-                    {user.firstName} {user.lastName}
-                  </span>
+                <label key={user._id} className="flex items-center py-1 cursor-pointer">
+                  <input type="checkbox" checked={formData.attendees.includes(user._id)} onChange={(e) => {
+                    if (e.target.checked) setFormData({ ...formData, attendees: [...formData.attendees, user._id] });
+                    else setFormData({ ...formData, attendees: formData.attendees.filter(id => id !== user._id) });
+                  }} className="mr-2" />
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{user.firstName} {user.lastName}</span>
                 </label>
               ))}
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
-            >
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <button type="button" onClick={onClose} className="btn btn-secondary">
               Cancel
             </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-4 py-2 text-white bg-primary-600 rounded-md hover:bg-primary-700 disabled:opacity-50"
-            >
+            <button type="submit" disabled={loading} className="btn btn-primary disabled:opacity-50">
               {loading ? 'Creating...' : `Create ${itemType}`}
             </button>
           </div>
