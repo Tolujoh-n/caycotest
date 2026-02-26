@@ -62,31 +62,34 @@ const Onboarding = () => {
       // Mark that we're completing onboarding to prevent redirect loop
       sessionStorage.setItem('onboardingCompleting', 'true');
       
-      await api.post('/onboarding/complete');
+      const completeResponse = await api.post('/onboarding/complete');
+      const emailSent = completeResponse.data?.emailSent === true;
       
-      // Wait a moment for the backend to fully save the changes
+      // Wait a moment for the backend to persist
       await new Promise(resolve => setTimeout(resolve, 300));
       
-      // Refresh user data to ensure onboarding status is updated
       await checkAuth();
       
-      // Verify onboarding is actually completed before navigating
       const statusResponse = await api.get('/onboarding/status');
-      if (statusResponse.data.data.onboardingCompleted) {
-        toast.success('Onboarding completed! Please check your email for your Organization ID.', {
-          duration: 6000,
-        });
-        // Clear the flag and navigate
+      const onboardingCompleted = statusResponse.data?.data?.onboardingCompleted ?? completeResponse.data?.onboardingCompleted;
+      
+      if (onboardingCompleted) {
+        if (emailSent) {
+          toast.success('Setup complete! Check your email for your Organization ID and login details.', { duration: 6000 });
+        } else {
+          toast.success('Setup complete! We couldn’t send your welcome email. You can request it again from Profile Settings.', { duration: 8000 });
+        }
         sessionStorage.removeItem('onboardingCompleting');
         navigate('/dashboard');
       } else {
-        // If still not completed, wait a bit more and check again
         await new Promise(resolve => setTimeout(resolve, 500));
         const retryResponse = await api.get('/onboarding/status');
-        if (retryResponse.data.data.onboardingCompleted) {
-          toast.success('Onboarding completed! Please check your email for your Organization ID.', {
-            duration: 6000,
-          });
+        if (retryResponse.data?.data?.onboardingCompleted) {
+          if (emailSent) {
+            toast.success('Setup complete! Check your email for your Organization ID and login details.', { duration: 6000 });
+          } else {
+            toast.success('Setup complete! We couldn’t send your welcome email. You can request it again from Profile Settings.', { duration: 8000 });
+          }
           sessionStorage.removeItem('onboardingCompleting');
           navigate('/dashboard');
         } else {

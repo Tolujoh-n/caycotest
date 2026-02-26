@@ -104,6 +104,15 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify({ ...user, ...userData }));
   };
 
+  // Set auth from token + user (e.g. after accept-invite) so user goes to dashboard without hitting login
+  const setAuthFromToken = (token, userData) => {
+    if (token && userData) {
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(userData));
+      setUser(userData);
+    }
+  };
+
   const hasPermission = (permission) => {
     if (!user) return false;
     
@@ -165,6 +174,7 @@ export const AuthProvider = ({ children }) => {
         register,
         logout,
         updateUser,
+        setAuthFromToken,
         hasPermission,
         checkAuth
       }}

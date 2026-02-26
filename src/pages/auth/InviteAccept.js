@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../config/api';
 import { toast } from 'react-hot-toast';
+import { useAuth } from '../../context/AuthContext';
 
 const InviteAccept = () => {
   const { token } = useParams();
   const navigate = useNavigate();
+  const { setAuthFromToken } = useAuth();
   const [inviteData, setInviteData] = useState(null);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -51,10 +53,10 @@ const InviteAccept = () => {
         ...formData
       });
 
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+      const { token: newToken, user: newUser } = response.data;
+      setAuthFromToken(newToken, newUser);
       toast.success('Account created successfully!');
-      navigate('/dashboard');
+      navigate('/dashboard', { replace: true });
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to accept invitation');
     } finally {
@@ -64,20 +66,20 @@ const InviteAccept = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 dark:border-primary-400"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
             Accept Invitation
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
             You've been invited as {inviteData?.role}
           </p>
         </div>
@@ -85,7 +87,7 @@ const InviteAccept = () => {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   First Name
                 </label>
                 <input
@@ -99,7 +101,7 @@ const InviteAccept = () => {
                 />
               </div>
               <div>
-                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Last Name
                 </label>
                 <input
@@ -114,7 +116,7 @@ const InviteAccept = () => {
               </div>
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
               </label>
               <input
@@ -128,7 +130,7 @@ const InviteAccept = () => {
               />
             </div>
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Confirm Password
               </label>
               <input
@@ -147,7 +149,7 @@ const InviteAccept = () => {
             <button
               type="submit"
               disabled={submitting}
-              className="btn btn-primary w-full"
+              className="btn btn-primary w-full disabled:opacity-50"
             >
               {submitting ? 'Creating account...' : 'Accept & Create Account'}
             </button>
