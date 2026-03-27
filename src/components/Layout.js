@@ -22,10 +22,10 @@ const Layout = ({ children }) => {
 
   const menuItems = [
     { path: '/dashboard', icon: FiHome, label: 'Home', permission: 'jobs.view' },
-    // { path: '/jobs', icon: FiBriefcase, label: 'Jobs', permission: 'jobs.view' },
-    { path: '/work', icon: FiClipboard, label: 'Work', permission: 'work.view' },
     { path: '/inbox', icon: FiInbox, label: 'Inbox', permission: 'inbox.view' },
-    // { path: '/customers', icon: FiUsers, label: 'CRM', permission: 'customers.view' },
+    { path: '/jobs', icon: FiBriefcase, label: 'Jobs', permission: 'jobs.view' },
+    { path: '/work', icon: FiClipboard, label: 'Work', permission: 'work.view' },
+    { path: '/customers', icon: FiUsers, label: 'CRM', permission: 'customers.view' },
     // { path: '/estimates', icon: FiFileText, label: 'Estimates', permission: 'estimates.view' },
     // { path: '/invoices', icon: FiDollarSign, label: 'Invoicing', permission: 'invoices.view' },
     // { path: '/purchasing', icon: FiPackage, label: 'Purchasing', permission: 'jobs.view' },

@@ -8,6 +8,7 @@ import api from '../../../../config/api';
 import { toast } from 'react-hot-toast';
 import CalendarItemModal from '../CalendarItemModal';
 import CalendarItemSidebar from '../CalendarItemSidebar';
+import JobSidebar from '../JobSidebar';
 
 const locales = {
   'en-US': enUS,
@@ -26,10 +27,12 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
   const [tasks, setTasks] = useState([]);
   const [events, setEvents] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [jobs, setJobs] = useState([]);
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItemType, setSelectedItemType] = useState(null);
   const [showItemSidebar, setShowItemSidebar] = useState(false);
+  const [showJobSidebar, setShowJobSidebar] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [createItemType, setCreateItemType] = useState('Task');
@@ -79,6 +82,11 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
       const appointmentsData = appointmentsRes.data.data || [];
       setAppointments(appointmentsData);
 
+      // Fetch jobs (only those assigned to me or my teams)
+      const jobsRes = await api.get('/jobs', { params: { myWork: true } });
+      const jobsData = jobsRes.data.data || [];
+      setJobs(jobsData);
+
       // Combine all items into calendar events
       const allEvents = [
         ...tasksData
@@ -111,7 +119,19 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
           type: 'Appointment',
           color: appointment.color || colorPrefs.appointment,
           allDay: false
-        }))
+        })),
+        ...jobsData
+          .filter(j => j.startDate || j.endDate)
+          .map(job => ({
+            id: job._id,
+            title: `${job.jobNumber} • ${job.title}`,
+            start: new Date(job.startDate || job.createdAt),
+            end: new Date(job.endDate || new Date(new Date(job.startDate || job.createdAt).getTime() + 60 * 60 * 1000)),
+            resource: job,
+            type: 'Job',
+            color: '#8B5CF6',
+            allDay: false
+          }))
       ];
 
       setCalendarEvents(allEvents);
@@ -129,6 +149,12 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
   };
 
   const handleSelectEvent = (event) => {
+    if (event.type === 'Job') {
+      setSelectedItem(event.resource);
+      setSelectedItemType('Job');
+      setShowJobSidebar(true);
+      return;
+    }
     setSelectedItem(event.resource);
     setSelectedItemType(event.type);
     setShowItemSidebar(true);
@@ -541,6 +567,14 @@ const CalendarTab = ({ projectId, teamId, type = 'project' }) => {
           }}
           onUpdate={handleItemUpdate}
           onDelete={handleItemDelete}
+        />
+      )}
+
+      {showJobSidebar && selectedItem && selectedItemType === 'Job' && (
+        <JobSidebar
+          job={selectedItem}
+          onClose={() => setShowJobSidebar(false)}
+          onUpdated={fetchAllItems}
         />
       )}
     </div>

@@ -26,6 +26,7 @@ import JobCreate from './pages/jobs/JobCreate';
 import Schedules from './pages/schedules/Schedules';
 import Customers from './pages/customers/Customers';
 import CustomerDetail from './pages/customers/CustomerDetail';
+import CustomerCreate from './pages/customers/CustomerCreate';
 import Estimates from './pages/estimates/Estimates';
 import EstimateDetail from './pages/estimates/EstimateDetail';
 import EstimateCreate from './pages/estimates/EstimateCreate';
@@ -149,6 +150,17 @@ function App() {
                 <ProtectedRoute permission="customers.view">
                   <Layout>
                     <Customers />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/customers/new"
+              element={
+                <ProtectedRoute permission="customers.create">
+                  <Layout>
+                    <CustomerCreate />
                   </Layout>
                 </ProtectedRoute>
               }

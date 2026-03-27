@@ -9,6 +9,7 @@ import CalendarTab from './components/tabs/CalendarTab';
 import DashboardTab from './components/tabs/DashboardTab';
 import FilesTab from './components/tabs/FilesTab';
 import NotesTab from './components/tabs/NotesTab';
+import JobsTab from './components/tabs/JobsTab';
 
 const WorkMyTasks = () => {
   const { user } = useAuth();
@@ -42,6 +43,7 @@ const WorkMyTasks = () => {
           { id: 'board', label: 'Board', enabled: true },
           { id: 'calendar', label: 'Calendar', enabled: true },
           { id: 'dashboard', label: 'Dashboard', enabled: true },
+          { id: 'jobs', label: 'Jobs', enabled: true },
           { id: 'files', label: 'Files', enabled: true },
           { id: 'notes', label: 'Notes', enabled: true }
         ];
@@ -82,6 +84,7 @@ const WorkMyTasks = () => {
       board: <BoardTab />,
       calendar: <CalendarTab />,
       dashboard: <DashboardTab />,
+      jobs: <JobsTab />,
       files: <FilesTab />,
       notes: <NotesTab />
     };

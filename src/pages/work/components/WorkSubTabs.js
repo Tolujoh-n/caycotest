@@ -45,6 +45,17 @@ const SortableTab = ({ tab, activeTabId, onActivate, onMenuClick, menuTabId }) =
 
 // All available tabs by context
 const getAvailableTabs = (context) => {
+  if (context === 'myTasks') {
+    return [
+      { id: 'list', label: 'List', enabled: true },
+      { id: 'board', label: 'Board', enabled: true },
+      { id: 'calendar', label: 'Calendar', enabled: true },
+      { id: 'dashboard', label: 'Dashboard', enabled: true },
+      { id: 'jobs', label: 'Jobs', enabled: true },
+      { id: 'files', label: 'Files', enabled: true },
+      { id: 'notes', label: 'Notes', enabled: true }
+    ];
+  }
   if (context === 'team') {
     return [
       { id: 'overview', label: 'Overview', enabled: true },

@@ -48,7 +48,7 @@ const Customers = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl font-bold text-gray-900">CRM - Customers</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">CRM - Customers</h1>
         <Link to="/customers/new" className="btn btn-primary flex items-center gap-2">
           <FiPlus className="h-5 w-5" />
           New Customer
@@ -77,11 +77,11 @@ const Customers = () => {
           >
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   {customer.firstName} {customer.lastName}
                 </h3>
                 {customer.company && (
-                  <p className="text-sm text-gray-600">{customer.company}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{customer.company}</p>
                 )}
               </div>
               <span className={`badge ${
@@ -92,13 +92,13 @@ const Customers = () => {
                 {customer.status}
               </span>
             </div>
-            <div className="space-y-2 text-sm text-gray-600">
+            <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
               <p>{customer.email}</p>
               {customer.phone && <p>{customer.phone}</p>}
             </div>
-            <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between text-sm">
-              <span className="text-gray-600">Jobs: <span className="font-medium">{customer.totalJobs || 0}</span></span>
-              <span className="text-gray-600">Revenue: <span className="font-medium">${(customer.totalRevenue || 0).toLocaleString()}</span></span>
+            <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between text-sm">
+              <span className="text-gray-600 dark:text-gray-400">Jobs: <span className="font-medium text-gray-900 dark:text-gray-100">{customer.totalJobs || 0}</span></span>
+              <span className="text-gray-600 dark:text-gray-400">Revenue: <span className="font-medium text-gray-900 dark:text-gray-100">${(customer.totalRevenue || 0).toLocaleString()}</span></span>
             </div>
           </Link>
         ))}
@@ -106,7 +106,7 @@ const Customers = () => {
 
       {customers.length === 0 && (
         <div className="card text-center py-12">
-          <p className="text-gray-500">No customers found</p>
+          <p className="text-gray-500 dark:text-gray-400">No customers found</p>
         </div>
       )}
     </div>

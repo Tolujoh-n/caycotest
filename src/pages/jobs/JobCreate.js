@@ -7,6 +7,7 @@ import { FiSave, FiX } from 'react-icons/fi';
 const JobCreate = () => {
   const [customers, setCustomers] = useState([]);
   const [users, setUsers] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [formData, setFormData] = useState({
     customerId: '',
     title: '',
@@ -16,6 +17,7 @@ const JobCreate = () => {
     startDate: '',
     endDate: '',
     assignedTo: [],
+    assignedTeams: [],
     location: {
       street: '',
       city: '',
@@ -38,6 +40,7 @@ const JobCreate = () => {
   useEffect(() => {
     fetchCustomers();
     fetchUsers();
+    fetchTeams();
   }, []);
 
   const fetchCustomers = async () => {
@@ -58,6 +61,15 @@ const JobCreate = () => {
     }
   };
 
+  const fetchTeams = async () => {
+    try {
+      const response = await api.get('/teams');
+      setTeams(response.data.data || []);
+    } catch (error) {
+      console.error('Error fetching teams:', error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -66,7 +78,7 @@ const JobCreate = () => {
       toast.success('Job created successfully!');
       navigate('/jobs');
     } catch (error) {
-      toast.error('Failed to create job');
+      toast.error(error.response?.data?.message || 'Failed to create job');
     } finally {
       setLoading(false);
     }
@@ -81,7 +93,7 @@ const JobCreate = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Create Job</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Create Job</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -89,10 +101,10 @@ const JobCreate = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Basic Information */}
             <div className="card">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Job Information</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Job Information</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Customer *</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Customer *</label>
                   <select
                     required
                     className="input"
@@ -108,7 +120,7 @@ const JobCreate = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title *</label>
                   <input
                     type="text"
                     required
@@ -118,7 +130,7 @@ const JobCreate = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
                   <textarea
                     className="input"
                     rows="4"
@@ -128,7 +140,7 @@ const JobCreate = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
                     <select
                       className="input"
                       value={formData.status}
@@ -143,7 +155,7 @@ const JobCreate = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
                     <select
                       className="input"
                       value={formData.priority}
@@ -158,7 +170,7 @@ const JobCreate = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Start Date</label>
                     <input
                       type="date"
                       className="input"
@@ -167,7 +179,7 @@ const JobCreate = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">End Date</label>
                     <input
                       type="date"
                       className="input"
@@ -181,11 +193,11 @@ const JobCreate = () => {
 
             {/* Cost Breakdown */}
             <div className="card">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Cost Breakdown</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Cost Breakdown</h2>
               <div className="space-y-4">
                 {Object.entries(formData.costs).map(([key, cost]) => (
                   <div key={key}>
-                    <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 capitalize">
                       {key} (Estimated)
                     </label>
                     <input
@@ -211,9 +223,9 @@ const JobCreate = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             <div className="card">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Assignments</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Assignments</h2>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Assigned To</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Assigned To</label>
                 <div className="space-y-2 max-h-48 overflow-y-auto">
                   {users.map((user) => (
                     <label key={user._id} className="flex items-center">
@@ -235,24 +247,59 @@ const JobCreate = () => {
                           }
                         }}
                       />
-                      <span className="text-sm text-gray-700">
+                      <span className="text-sm text-gray-700 dark:text-gray-300">
                         {user.firstName} {user.lastName}
                       </span>
                     </label>
                   ))}
                 </div>
               </div>
+
+              <div className="mt-5">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Assigned Teams</label>
+                <div className="space-y-2 max-h-48 overflow-y-auto">
+                  {teams.map((team) => (
+                    <label key={team._id} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        className="mr-2"
+                        checked={formData.assignedTeams.includes(team._id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setFormData({
+                              ...formData,
+                              assignedTeams: [...formData.assignedTeams, team._id]
+                            });
+                          } else {
+                            setFormData({
+                              ...formData,
+                              assignedTeams: formData.assignedTeams.filter(id => id !== team._id)
+                            });
+                          }
+                        }}
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: team.color || '#10B981' }} />
+                        {team.name}
+                      </span>
+                    </label>
+                  ))}
+                  {teams.length === 0 && (
+                    <p className="text-sm text-gray-500 dark:text-gray-400">No teams yet</p>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="card">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Financial Summary</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Financial Summary</h2>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Estimated Cost</span>
-                  <span className="font-medium">${calculateTotalCost().toLocaleString()}</span>
+                  <span className="text-gray-600 dark:text-gray-400">Estimated Cost</span>
+                  <span className="font-medium text-gray-900 dark:text-gray-100">${calculateTotalCost().toLocaleString()}</span>
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">Revenue</label>
+                  <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Revenue</label>
                   <input
                     type="number"
                     min="0"
@@ -263,7 +310,7 @@ const JobCreate = () => {
                   />
                 </div>
                 <div className="flex justify-between border-t pt-3">
-                  <span className="font-semibold text-gray-900">Estimated Profit</span>
+                  <span className="font-semibold text-gray-900 dark:text-gray-100">Estimated Profit</span>
                   <span className={`font-semibold ${(formData.revenue - calculateTotalCost()) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                     ${(formData.revenue - calculateTotalCost()).toLocaleString()}
                   </span>

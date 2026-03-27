@@ -14,6 +14,7 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess }) => {
     members: []
   });
   const [availableUsers, setAvailableUsers] = useState([]);
+  const [availableTeams, setAvailableTeams] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const colorOptions = [
@@ -24,6 +25,7 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess }) => {
   useEffect(() => {
     if (isOpen) {
       fetchUsers();
+      fetchTeams();
       if (project) {
         setFormData({
           name: project.name || '',
@@ -32,7 +34,8 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess }) => {
           status: project.status || 'Active',
           startDate: project.startDate ? new Date(project.startDate).toISOString().split('T')[0] : '',
           dueDate: project.dueDate ? new Date(project.dueDate).toISOString().split('T')[0] : '',
-          members: project.members?.map(m => m._id || m.id) || []
+          members: project.members?.map(m => m._id || m.id) || [],
+          teams: project.teams?.map(t => t._id || t.id) || []
         });
       } else {
         setFormData({
@@ -42,7 +45,8 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess }) => {
           status: 'Active',
           startDate: '',
           dueDate: '',
-          members: []
+          members: [],
+          teams: []
         });
       }
     }
@@ -54,6 +58,15 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess }) => {
       setAvailableUsers(response.data.data || []);
     } catch (error) {
       console.error('Failed to fetch users');
+    }
+  };
+
+  const fetchTeams = async () => {
+    try {
+      const response = await api.get('/teams');
+      setAvailableTeams(response.data.data || []);
+    } catch (error) {
+      console.error('Failed to fetch teams');
     }
   };
 
@@ -84,6 +97,15 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess }) => {
       members: formData.members.includes(userId)
         ? formData.members.filter(id => id !== userId)
         : [...formData.members, userId]
+    });
+  };
+
+  const toggleTeam = (teamId) => {
+    setFormData({
+      ...formData,
+      teams: formData.teams?.includes(teamId)
+        ? formData.teams.filter(id => id !== teamId)
+        : [...(formData.teams || []), teamId]
     });
   };
 
@@ -220,6 +242,29 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess }) => {
                     <div className="font-medium text-gray-900 dark:text-white">{user.firstName} {user.lastName}</div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">{user.email}</div>
                   </div>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Teams
+            </label>
+            <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-3 max-h-48 overflow-y-auto space-y-2 bg-gray-50 dark:bg-gray-700/30">
+              {availableTeams.map(team => (
+                <label
+                  key={team._id}
+                  className="flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    checked={(formData.teams || []).includes(team._id)}
+                    onChange={() => toggleTeam(team._id)}
+                    className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-primary-600"
+                  />
+                  <span className="h-3 w-3 rounded-full" style={{ backgroundColor: team.color || '#10B981' }} />
+                  <div className="font-medium text-gray-900 dark:text-white">{team.name}</div>
                 </label>
               ))}
             </div>
